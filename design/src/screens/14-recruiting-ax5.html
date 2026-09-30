@@ -32,7 +32,7 @@ const rec = (name, pos, st, mi, lo, hi, interest, week) => `<div class="rec">
   <div class="ev"><span class="l">Your eval</span>${rangeBar(lo, hi)}<b>${lo}&ndash;${hi}</b></div>
   <div class="l chalk">${interest}</div>
   <div class="l">${week}</div></div>`;
-const head = `<div class="top">Recruiting <span class="flag-c">&middot; 5 of 12 left</span></div>`;
+const head = `<div class="top">Recruiting <span class="flag-c">&middot; 5 left</span></div>`;
 const content = `
   ${rec("Malik Durant", "WR", 4, 248, 74, 84, 'You\'re 2nd &middot; Warm <span class="gain">&#9650;</span>', "This week: call, 1 point")}
   ${rec("Cole Szymanski", "OT", 3, 256, 68, 78, "You're 1st &middot; Hot", "This week: home visit, 4 points")}
@@ -47,7 +47,7 @@ if (full) {
     ${head}<div style="padding-left:14px">${content}</div><div class="fold" style="top:372px"><span>First screen ends here &middot; the rest scrolls</span></div></div>`;
 } else {
   document.getElementById("root").innerHTML = device(`<div class="safe"><div class="ax-rail">${rail("marlow", "recruit", ["recruit", "prep", "squad"])}</div>
-    <div class="content">${head}<div class="scroll">${content}</div><div class="bar"></div></div></div>`, { ax5: true });
+    <div class="content">${head}<div class="scroll">${content}</div><div class="bar"></div></div></div>`, { ax5: true, club: "marlow" });
 }
 </script>
 </body></html>

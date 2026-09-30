@@ -16,7 +16,7 @@
   .beat .top .st { font-size: var(--fs-footnote); line-height: 17px; font-weight: 600; }
   .beat .det { font-size: var(--fs-caption); line-height: 15px; color: var(--stone); }
   .beat .chev { position: absolute; right: 3px; top: 12px; width: 7px; height: 7px; border: solid var(--dim); border-width: 1.5px 1.5px 0 0; transform: rotate(45deg); }
-  .side { position: absolute; left: 404px; right: 12px; top: 50px; }
+  .side { position: absolute; left: 404px; right: 12px; top: 54px; }
   .chg { display: flex; gap: 8px; align-items: baseline; padding: 4px 0; border-bottom: 1px solid var(--line); font-size: var(--fs-caption); line-height: 15px; white-space: nowrap; }
   .chg .k { width: 56px; flex: none; }
   .foot { position: absolute; left: 14px; right: 12px; bottom: 4px; display: flex; justify-content: space-between; align-items: center; }
@@ -56,18 +56,15 @@ document.getElementById("root").innerHTML = device(`
     </div>
 
     <div class="side">
-      <div class="sect"><span class="label">Since last week</span></div>
+      ${matchup("marlow", "sedalia", [
+        '<span class="chalk semibold">Sat 7:00 PM</span> &middot; Foundry Field &middot; 38,400 &middot; night',
+        'Sedalia 4&ndash;1, 2nd &middot; last met L 17&ndash;31',
+        '<span class="chalk">Foundry Bell:</span> crowd stays loud after they score'])}
+      <div class="sect" style="margin-top:8px"><span class="label">Since last week</span></div>
       <div class="chg"><span class="k"><span class="chip chip-gain">W 27&ndash;20</span></span><span>vs Salina State, at home</span></div>
       <div class="chg"><span class="k stone">Standing</span><span>5th <span class="stone">&rarr;</span> <b>4th</b> in the Tri-River</span></div>
-      <div class="chg"><span class="k stone">Job</span><span>Security 57 <span class="stone">&rarr;</span> <b class="gain">60</b><br><span class="stone">Projected 4th&ndash;6th; expected 6th</span></span></div>
-      <div class="chg"><span class="k stone">Injury</span><span>Price (RB): questionable, hamstring</span></div>
-      <div class="chg"><span class="k stone">Recruit</span><span>Durant (WR) moved you up to 2nd</span></div>
-      <div class="chg" style="border-bottom:none"><span class="k stone">Press</span><span>Brandt has 6 interceptions</span></div>
-      <div class="panel opp">
-        ${shield("sedalia", 24, 27)}
-        <div style="flex:1;white-space:nowrap"><div class="caption semibold">Next: Sedalia A&amp;M Ironclads</div>
-          <div class="caption stone">4&ndash;1 &middot; 3&ndash;0, 2nd &middot; last met L 17&ndash;31</div></div>
-      </div>
+      <div class="chg"><span class="k stone">Job</span><span>Security 57 <span class="stone">&rarr;</span> <b class="gain">60</b> <span class="stone">&middot; expected 6th</span></span></div>
+      <div class="chg" style="border-bottom:none"><span class="k stone">Recruit</span><span>Durant (WR) moved you up to 2nd</span></div>
     </div>
 
     <div class="foot">
@@ -78,6 +75,6 @@ document.getElementById("root").innerHTML = device(`
       <div class="continue"><span class="k">Continue</span><span class="v">Inbox: 2 to answer</span></div>
     </div>
   </div>
-</div>`);
+</div>`, { club: "marlow" });
 </script>
 </body></html>

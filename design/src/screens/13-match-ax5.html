@@ -28,8 +28,8 @@
 const full = location.search.includes("full=1");
 const M = CLUBS.marlow, S = CLUBS.sedalia;
 const bug = `<div class="bug">
-  <span class="pl" style="background:${M.primary};color:${M.plateText}">MARLOW 20</span>
-  <span class="pl" style="background:${S.primary};color:${S.plateText}">SEDALIA 24</span>
+  <span class="pl" style="background:${M.primary};color:${M.plateText};display:inline-flex;align-items:center;gap:6px">${helmet("marlow", 44)}MARLOW 20</span>
+  <span class="pl" style="background:${S.primary};color:${S.plateText};display:inline-flex;align-items:center;gap:6px">${helmet("sedalia", 44, "left")}SEDALIA 24</span>
   <span>Q4 6:48</span></div>`;
 const field = fieldSVG({ w: 734, h: 287, home: "sedalia", dimOthers: true, markR: 4.2, labelSize: 16, ...PRESNAP });
 const content = `
@@ -44,12 +44,13 @@ const content = `
   <div class="bt" style="box-shadow:inset 0 0 0 1.5px var(--line-strong)">Defer to Whitcomb</div>
   <div class="bt" style="box-shadow:inset 0 0 0 1.5px var(--line-strong)">Timeout (2 left)</div>
   <div style="margin:6px 0 10px;border-radius:8px;overflow:hidden">${field}</div>
-  <div class="det"><b>Last snap, 3rd &amp; 6:</b> Price, outside zone, 4 yards. #21 Hollis came down to fill the alley.</div>`;
+  <div class="det"><b>Last snap, 3rd &amp; 6:</b> Price, outside zone, 4 yards. #21 Hollis came down to fill the alley.</div>
+  <div class="det"><b>Crowd: loud.</b> Foundry Field, 38,412. The Foundry Bell keeps it loud all series: visitors false-start and miss blocks more.</div>`;
 if (full) {
   document.getElementById("root").innerHTML = `<div id="full" class="ax5" style="position:relative;width:852px;padding:0 59px 30px;background:var(--ground)">
     ${bug}${content}<div class="fold" style="top:372px"><span>First screen ends here &middot; the rest scrolls</span></div></div>`;
 } else {
-  document.getElementById("root").innerHTML = device(`<div class="safe">${bug}<div class="scroll">${content}</div><div class="bar"></div></div>`, { ax5: true });
+  document.getElementById("root").innerHTML = device(`<div class="safe">${bug}<div class="scroll">${content}</div><div class="bar"></div></div>`, { ax5: true, club: "marlow" });
 }
 </script>
 </body></html>

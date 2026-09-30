@@ -15,6 +15,8 @@
   .sh .v .num { font-size: 22px; line-height: 22px; }
   .sh .v .b { font-size: var(--fs-caption2); line-height: 13px; }
   .foot { position: absolute; right: 12px; bottom: 4px; }
+  .rafters { display: flex; align-items: flex-start; gap: 6px; margin-top: 6px; }
+  .rafters .label { writing-mode: vertical-rl; transform: rotate(180deg); font-size: 10px; margin-right: 2px; }
 </style></head>
 <body><div id="root"></div>
 <script>
@@ -60,19 +62,21 @@ document.getElementById("root").innerHTML = device(`
         <div class="ln"><span class="stone">Locker room above 70</span><b class="gain">+3</b></div>
         <div class="ln"><span class="stone">Security moves halfway: 60 toward 73</span><b>67</b></div>
       </div>
+      <div class="rafters"><span class="label">In the rafters</span>
+        ${banner("marlow", ["TRI-RIVER", "CHAMPIONS", "1987"], 46, 56)}${banner("marlow", ["TRI-RIVER", "CHAMPIONS", "1998"], 46, 56)}${banner("marlow", ["PRAIRIE", "BOWL", "2009"], 46, 56)}${banner("marlow", ["", "", "?"], 46, 56, true)}</div>
     </div>
 
     <div class="right">
       <div class="sect"><span class="label">The people who decide</span></div>
       ${sh("AD Priscilla Vance", "athletic director", 67, "Steady", "up", "6th or better; attendance up", '"A road win at Sedalia. That\'s the job."')}
       ${sh("Boosters", "chair Hap Dorsey", 52, "Neutral", "down", "beat Ardmore Tech; NIL deals done", "You sent Kimbrough to the breakfast: &minus;2")}
-      ${sh("Fans", "attendance 71%", 63, "Supportive", "up", "home wins and points", "Next: Hot Springs at home, Week 7")}
+      ${sh("Fans", "attendance 71%", 63, "Supportive", "up", "home wins and points", 'Your promise: 8 in-state signees <span class="chalk">(3 so far)</span>')}
       ${sh("Locker room", "captains Brandt, Oyelaran", 72, "Supportive", "", "fair playing time; a lighter week", "You backed Brandt in the press: +4")}
       <div class="caption2 dim" style="margin-top:4px">A group at 70 or above adds 3 to the target; one below 40 takes 5 away.</div>
     </div>
 
     <div class="foot"><div class="continue"><span class="k">Continue</span><span class="v">Week 7 vs Hot Springs</span></div></div>
   </div>
-</div>`);
+</div>`, { club: "marlow" });
 </script>
 </body></html>

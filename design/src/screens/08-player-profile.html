@@ -34,7 +34,7 @@ document.getElementById("root").innerHTML = device(`
   ${rail("marlow", "squad", ["prep", "recruit", "squad"])}
   <div class="content">
     <div class="hdr">
-      <div style="display:flex;align-items:baseline;gap:10px"><span class="ttl"><span class="stone">72</span> Tobi Okafor</span>
+      <div style="display:flex;align-items:baseline;gap:10px"><span style="font-family:'Varsity';font-size:30px;line-height:26px;color:var(--club-ink)">72</span><span class="ttl">Tobi Okafor</span>
         <span class="ctx">LT &middot; RS sophomore &middot; age 20</span></div>
       <div style="display:flex;gap:12px;align-items:baseline;padding-right:12px">
         <span class="label">Overall</span><span class="num" style="font-size:24px">76</span>
@@ -83,6 +83,6 @@ document.getElementById("root").innerHTML = device(`
 
     <div class="foot"><div class="continue"><span class="k">Continue</span><span class="v">Squad: 2 flags</span></div></div>
   </div>
-</div>`);
+</div>`, { club: "marlow" });
 </script>
 </body></html>

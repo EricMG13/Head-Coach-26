@@ -3,7 +3,7 @@
 <link rel="stylesheet" href="../css/tokens.css">
 <script src="../js/common.js"></script>
 <style>
-  .classbar { position: absolute; left: 14px; right: 12px; top: 45px; display: flex; gap: 14px; font-size: var(--fs-caption); line-height: 22px; color: var(--stone); border-bottom: 1px solid var(--line); }
+  .classbar { position: absolute; left: 14px; right: 12px; top: 45px; display: flex; gap: 14px; white-space: nowrap; font-size: var(--fs-caption); line-height: 22px; color: var(--stone); border-bottom: 1px solid var(--line); }
   .classbar b { color: var(--chalk); font-weight: 600; }
   .board { position: absolute; left: 14px; top: 72px; width: 392px; }
   .board { table-layout: fixed; }
@@ -19,9 +19,11 @@
   .kv .k { width: 58px; color: var(--stone); flex: none; }
   .kv .range { flex: 1; }
   .kv b { font-family: "Display"; font-weight: 600; font-size: 13px; color: var(--fog); width: 38px; text-align: right; }
-  .want { padding: 1px 0 2px; border-bottom: 1px solid var(--line); font-size: var(--fs-caption2); line-height: 13px; }
+  .want { padding: 0 0 1px; border-bottom: 1px solid var(--line); font-size: var(--fs-caption2); line-height: 13px; }
   .want .d { color: var(--stone); }
   .acts { display: flex; gap: 5px; margin-top: 3px; }
+  .top3 { display: flex; align-items: center; gap: 7px; margin-top: 2px; font-size: var(--fs-caption2); line-height: 18px; white-space: nowrap; }
+  .top3 span { display: inline-flex; align-items: center; gap: 3px; }
   .acts .btn { min-height: 32px; padding: 0 6px; font-size: var(--fs-caption); flex: 1; }
   .pts { display: flex; gap: 3px; align-items: center; }
   .pts i { width: 7px; height: 12px; border-radius: 2px; }
@@ -49,12 +51,12 @@ document.getElementById("root").innerHTML = device(`
         <span class="num flag-c" style="font-size:16px;white-space:nowrap">5 of 12 points left</span></div>
     </div>
     <div class="classbar">
-      <span>Committed <b>6</b> of 25</span><span>Scholarships open <b>21</b></span><span>Offers out <b>29</b> of 42</span><span>Shortlist <b>18</b> of 40</span>
+      <span>Committed <b>6</b> of 25</span><span><b>21</b> scholarships open</span><span>Offers <b>29</b> of 42</span><span style="margin-left:auto"><b>Lantern Walk, Week 7:</b> visits count double</span>
     </div>
 
     <table class="board">
       <colgroup><col style="width:126px"><col style="width:86px"><col style="width:84px"><col style="width:96px"></colgroup>
-      <tr><th>Recruit</th><th>Your eval</th><th>Interest</th><th>This week</th></tr>
+      <tr><th>Shortlist 18 of 40</th><th>Your eval</th><th>Interest</th><th>This week</th></tr>
       ${R("Malik Durant", "WR", 4, 248, 74, 84, band("You're 2nd", "Warm", "up"), wk("Call", "1 point"), true)}
       ${R("Cole Szymanski", "OT", 3, 256, 68, 78, band("You're 1st", "Hot"), wk("Home visit", "4 points"))}
       ${R("Andre Whitfield", "DE", 4, 25, 71, 85, band("You're 3rd", "Cool"), wk("Evaluate", "2 points"))}
@@ -75,12 +77,13 @@ document.getElementById("root").innerHTML = device(`
       <div class="want"><div style="display:flex;justify-content:space-between"><span>1 &middot; Early playing time</span><span class="chip chip-gain">Strong</span></div><div class="d">Our WR room is thin; he'd start in year 2</div></div>
       <div class="want"><div style="display:flex;justify-content:space-between"><span>2 &middot; NIL</span><span class="chip chip-line">Fair</span></div><div class="d">We offer $40K; his market is $35K&ndash;$60K</div></div>
       <div class="want"><div style="display:flex;justify-content:space-between"><span>3 &middot; Close to home</span><span class="chip chip-loss">Weak</span></div><div class="d">248 mi from us; Ardmore Tech is 213</div></div>
-      <div class="caption2" style="margin-top:3px"><span class="stone">His top 3:</span> Ardmore Tech, <b>you</b>, St. Aubin</div>
+      <div class="top3"><span class="stone">His top 3</span>
+        <span>${helmet("ardmore", 22)}Ardmore</span><span>${helmet("marlow", 22)}<b>you</b> &#9650;</span><span>${helmet("staubin", 22)}St. Aubin</span></div>
       <div class="acts"><div class="btn btn-quiet" style="flex:1.25;flex-direction:column;gap:0;line-height:13px">Evaluate &middot; 2<span class="caption2 fog" style="font-weight:500">to about 76&ndash;82</span></div><div class="btn btn-quiet">Home visit &middot; 4</div></div>
     </div>
 
     <div class="foot"><div class="continue"><span class="k">Continue</span><span class="v">Squad: 2 flags</span></div></div>
   </div>
-</div>`);
+</div>`, { club: "marlow" });
 </script>
 </body></html>
