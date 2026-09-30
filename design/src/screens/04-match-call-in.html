@@ -1,0 +1,111 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<link rel="stylesheet" href="../css/tokens.css">
+<script src="../js/common.js"></script>
+<script src="../js/field.js"></script>
+<style>
+  .topbar { position: absolute; left: 0; right: 0; top: 0; height: 40px; display: flex; align-items: center; justify-content: space-between; }
+  .tb-btn { display: flex; align-items: center; gap: 6px; height: 36px; padding: 0 10px; border-radius: var(--r-control); box-shadow: inset 0 0 0 1px var(--line-strong); font-size: var(--fs-caption); font-weight: 600; }
+  .tb-btn svg { width: 16px; height: 16px; stroke: var(--chalk); fill: none; stroke-width: 1.6; stroke-linecap: round; }
+  .bug { display: flex; height: 32px; border-radius: var(--r-control); overflow: hidden; box-shadow: 0 0 0 1px var(--line); }
+  .plate { display: flex; align-items: center; gap: 8px; padding: 0 9px 0 9px; }
+  .plate .col { display: flex; flex-direction: column; gap: 3px; }
+  .plate .nm { font-family: "Display"; font-weight: 700; font-size: 14px; letter-spacing: 0.07em; }
+  .plate .sc { font-family: "Display"; font-weight: 700; font-size: 25px; line-height: 25px; min-width: 24px; text-align: right; }
+  .pips { display: flex; gap: 3px; }
+  .pips i { display: block; width: 12px; height: 3px; border-radius: 1px; }
+  .poss { width: 7px; height: 5px; border-radius: 50%; background: #9A6532; box-shadow: 0 0 0 1px #EEF1EA; }
+  .bug .blk { display: flex; align-items: center; gap: 6px; padding: 0 10px; background: var(--surface); font-family: "Display"; font-weight: 700; font-size: 17px; letter-spacing: 0.03em; }
+  .bug .blk .s { color: var(--stone); font-weight: 600; font-size: 14px; }
+  .field { position: absolute; left: 0; top: 40px; }
+  .callin { position: absolute; left: 0; top: 40px; width: 332px; height: 332px; background: var(--raised); border-right: 1px solid var(--line-strong); padding: 8px 10px 0 10px; }
+  .ci-head { display: flex; align-items: baseline; gap: 8px; }
+  .ci-sub { font-size: var(--fs-caption); line-height: var(--lh-caption); color: var(--stone); margin: 2px 0 16px; }
+  .ci-sub { font-size: var(--fs-caption); line-height: var(--lh-caption); color: var(--stone); margin: 1px 0 5px; }
+  .ci-rec { font-size: var(--fs-caption); line-height: 15px; padding: 5px 8px; border-radius: var(--r-control); background: var(--surface); margin-bottom: 9px; }
+  .rec-tab { position: absolute; right: 8px; top: -7px; font-family: "Display"; font-weight: 600; font-size: 10.5px; line-height: 12px; letter-spacing: 0.08em; padding: 0 5px; border-radius: 3px; background: var(--raised); color: var(--flag); box-shadow: inset 0 0 0 1px var(--flag); }
+  .opt { position: relative; padding: 4px 8px 4px 8px; border-radius: var(--r-control); box-shadow: inset 0 0 0 1px var(--line-strong); margin-bottom: 8px; }
+  .opt.sel { box-shadow: inset 0 0 0 1.5px var(--flag); background: rgba(244,197,66,0.06); }
+  .opt .row { display: flex; justify-content: space-between; align-items: baseline; }
+  .opt .nm { font-size: var(--fs-footnote); line-height: 17px; font-weight: 600; }
+  .opt .est { font-family: "Display"; font-weight: 600; font-size: 16px; color: var(--fog); }
+  .opt .est small { font-family: "Text"; font-weight: 500; font-size: 10.5px; color: var(--fog); margin-right: 4px; letter-spacing: 0; }
+  .opt .tr { font-size: var(--fs-caption); line-height: 15px; color: var(--stone); }
+  .opt .tr b { color: var(--chalk); font-weight: 600; margin-right: 3px; }
+  .ci-foot { position: absolute; left: 10px; right: 10px; bottom: 4px; display: flex; gap: 6px; }
+  .strip { position: absolute; left: 344px; right: 0; top: 330px; height: 42px; display: flex; align-items: center; justify-content: space-between; }
+  .cap1 { font-size: var(--fs-footnote); line-height: 16px; font-weight: 600; }
+  .cap2 { font-size: var(--fs-caption); line-height: 15px; color: var(--stone); }
+  .ctrls { display: flex; gap: 6px; align-items: center; }
+  .icon-btn { width: 40px; height: 36px; border-radius: var(--r-control); box-shadow: inset 0 0 0 1px var(--line-strong); display: flex; align-items: center; justify-content: center; }
+  .icon-btn svg { width: 16px; height: 16px; fill: var(--chalk); }
+</style></head>
+<body><div id="root"></div>
+<script>
+const f = fieldSVG({ w: 734, h: 287, home: "sedalia", dimOthers: true, markR: 3.8, ...PRESNAP });
+const M = CLUBS.marlow, S = CLUBS.sedalia;
+document.getElementById("root").innerHTML = device(`
+<div class="safe">
+  <div class="topbar">
+    <div class="tb-btn"><svg viewBox="0 0 16 16"><path d="M3 4h10M3 8h10M3 12h6"/></svg>Plan</div>
+    <div class="bug">
+      <div class="plate" style="background:${M.primary};color:${M.plateText}">
+        <span class="col"><span class="nm" style="line-height:13px">MARLOW</span>
+        <span class="pips"><i style="background:${M.plateText}"></i><i style="background:${M.plateText}"></i><i style="background:${M.plateText};opacity:.25"></i></span></span>
+        <span class="poss"></span><span class="sc">20</span>
+      </div>
+      <div class="plate" style="background:${S.primary};color:${S.plateText}">
+        <span class="col"><span class="nm" style="line-height:13px">SEDALIA</span>
+        <span class="pips"><i style="background:${S.plateText}"></i><i style="background:${S.plateText};opacity:.25"></i><i style="background:${S.plateText};opacity:.25"></i></span></span>
+        <span class="sc">24</span>
+      </div>
+      <div class="blk">Q4 <span>6:48</span></div>
+      <div class="blk" style="border-left:1px solid var(--line)">4TH &amp; 2 <span class="s">SED 36</span></div>
+    </div>
+    <div class="tb-btn">Head coach <span class="stone" style="font-weight:500">&middot; call 16 of about 22</span>
+      <svg viewBox="0 0 16 16"><path d="M4 6l4 4 4-4"/></svg></div>
+  </div>
+
+  <div class="field">${f}</div>
+
+  <div class="callin">
+    <div class="ci-head"><span class="chip chip-flag" style="font-family:Display;font-size:12px;letter-spacing:.08em">YOUR CALL</span>
+      <span class="headline">4th &amp; 2 at the SED 36</span></div>
+    <div class="ci-sub">Q4 6:48 &middot; down 20&ndash;24 &middot; 2 timeouts left &middot; they have 1</div>
+
+    <div class="opt sel"><span class="rec-tab">RECOMMENDED</span>
+      <div class="row"><span class="nm">Go: Stick to Lund</span><span class="est"><small>converts</small>58&ndash;67%</span></div>
+      <div class="tr" style="color:var(--chalk)"><b style="color:var(--flag)">Whitcomb (OC)</b>It beats their Cover 1 robber look.</div>
+      <div class="tr"><b>Tries</b>the ball out before #54 Pike gets home.</div>
+      <div class="tr"><b>Risks</b>Hollis jumps it: their ball at their 36.</div>
+    </div>
+    <div class="opt">
+      <div class="row"><span class="nm">Go: Power right</span><span class="est"><small>converts</small>52&ndash;63%</span></div>
+      <div class="tr"><b>Tries</b>Price behind Okafor, at a six-man box.</div>
+      <div class="tr"><b>Risks</b>Price is running hot after 19 carries.</div>
+    </div>
+    <div class="opt">
+      <div class="row"><span class="nm">Kick: 53-yard field goal</span><span class="est"><small>makes</small>35&ndash;48%</span></div>
+      <div class="tr"><b>Tries</b>Ruiz (1 of 3 from 50+) cuts it to 23&ndash;24.</div>
+      <div class="tr"><b>Risks</b>a miss gives them the ball at their 43.</div>
+    </div>
+    <div class="ci-foot">
+      <div class="btn btn-quiet btn-sm" style="flex:1">Defer to Whitcomb</div>
+      <div class="btn btn-quiet btn-sm">Timeout</div>
+      <div class="btn btn-decide btn-sm" style="flex:1.1">Call Stick</div>
+    </div>
+  </div>
+
+  <div class="strip">
+    <div>
+      <div class="cap1">3rd &amp; 6: Price, outside zone, 4 yards.</div>
+      <div class="cap2">#21 Hollis came down to fill the alley.</div>
+    </div>
+    <div class="ctrls">
+      <div class="icon-btn" style="opacity:.45"><svg viewBox="0 0 16 16"><path d="M4 3l9 5-9 5z"/></svg></div>
+      <span class="caption dim" style="width:88px;line-height:14px">Play resumes after your call</span>
+    </div>
+  </div>
+</div>`);
+</script>
+</body></html>

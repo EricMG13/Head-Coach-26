@@ -1,0 +1,90 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<link rel="stylesheet" href="../css/tokens.css">
+<script src="../js/common.js"></script>
+<style>
+  .col { position: absolute; top: 48px; }
+  .flow { left: 14px; width: 282px; }
+  .plan { left: 310px; width: 188px; }
+  .after { left: 512px; width: 150px; }
+  .km { display: flex; gap: 7px; padding: 3px 0; border-bottom: 1px solid var(--line); font-size: var(--fs-caption); line-height: 15px; }
+  .km .t { font-family: "Display"; font-weight: 600; font-size: 13px; color: var(--stone); width: 44px; flex: none; }
+  .row { padding: 3px 0 4px; border-bottom: 1px solid var(--line); }
+  .row .a { display: flex; justify-content: space-between; align-items: baseline; font-size: var(--fs-caption); line-height: 15px; font-weight: 600; }
+  .row .b { font-size: var(--fs-caption2); line-height: 13px; color: var(--stone); }
+  .foot { position: absolute; right: 12px; bottom: 4px; }
+</style></head>
+<body><div id="root"></div>
+<script>
+// Marlow State's margin over the game (minutes 0-60), from the scoring plays.
+const steps = [[0,0],[5.8,-7],[12.33,0],[18.97,-7],[25.75,-4],[29.37,-7],[36.67,0],[43.92,-7],[47.48,-4],[55.97,3],[60,3]];
+// Your 22 call-ins: minute, outcome (1 worked, 0 did not, 2 deferred to the coordinator)
+const calls = [[3.1,1],[7.9,2],[10.4,0],[14.2,1],[17.5,1],[21.0,0],[24.8,2],[27.2,1],[28.9,0],[31.5,1],[35.0,2],[38.2,1],[41.7,0],[45.1,1],[50.2,2],[53.2,1],[54.4,1],[55.9,1],[57.0,2],[58.1,0],[58.9,1],[59.5,1]];
+const W = 282, H = 104, y0 = 8, mid = y0 + 44, py = (m) => mid - m * 4.4, px = (t) => (t / 60) * W;
+let svg = `<svg width="${W}" height="${H + 22}" style="display:block">`;
+for (let q = 1; q < 4; q++) svg += `<line x1="${px(q*15)}" y1="${y0}" x2="${px(q*15)}" y2="${y0+88}" stroke="var(--line)" stroke-width="1"/>`;
+for (let q = 0; q < 4; q++) svg += `<text x="${px(q*15)+3}" y="${y0+8}" font-family="Display" font-weight="600" font-size="10" fill="var(--dim)">Q${q+1}</text>`;
+svg += `<line x1="0" y1="${mid}" x2="${W}" y2="${mid}" stroke="var(--line-strong)" stroke-width="1"/>`;
+svg += `<text x="${W-2}" y="${py(0)-3}" text-anchor="end" font-family="Display" font-size="10" fill="var(--dim)">0</text><text x="${W-2}" y="${py(7)+3}" text-anchor="end" font-family="Display" font-size="10" fill="var(--dim)">+7</text><text x="${W-2}" y="${py(-7)+3}" text-anchor="end" font-family="Display" font-size="10" fill="var(--dim)">&minus;7</text>`;
+let d = `M0 ${py(0)}`;
+for (let i = 1; i < steps.length; i++) d += ` H${px(steps[i][0]).toFixed(1)} V${py(steps[i][1]).toFixed(1)}`;
+svg += `<path d="${d}" fill="none" stroke="var(--chalk)" stroke-width="1.6"/>`;
+// key moments
+for (const [t, m, n, dy] of [[53.2, -4, "1", 0], [55.97, 3, "2", 0], [59.13, 3, "3", 13]]) {
+  svg += `<circle cx="${px(t)}" cy="${py(m)+dy}" r="5.5" fill="var(--flag)"/><text x="${px(t)}" y="${py(m)+dy+3.5}" text-anchor="middle" font-family="Display" font-weight="700" font-size="10" fill="var(--ink)">${n}</text>`;
+}
+const ty = y0 + 98;
+for (const [t, o] of calls) {
+  const x = px(t).toFixed(1);
+  if (o === 1) svg += `<line x1="${x}" y1="${ty}" x2="${x}" y2="${ty-7}" stroke="var(--gain)" stroke-width="2"/>`;
+  if (o === 0) svg += `<line x1="${x}" y1="${ty}" x2="${x}" y2="${ty+7}" stroke="var(--loss)" stroke-width="2"/>`;
+  if (o === 2) svg += `<circle cx="${x}" cy="${ty}" r="2" fill="var(--dim)"/>`;
+}
+svg += `<line x1="0" y1="${ty}" x2="${W}" y2="${ty}" stroke="var(--line)" stroke-width="1"/></svg>`;
+
+document.getElementById("root").innerHTML = device(`
+<div class="safe">
+  ${rail("marlow", "week", ["recruit"])}
+  <div class="content">
+    <div class="hdr">
+      <div style="display:flex;align-items:baseline;gap:12px"><span class="ttl">Final</span>
+        <span class="num" style="font-size:22px">Marlow State 27, Sedalia A&amp;M 24</span></div>
+      <div style="display:flex;gap:12px;align-items:baseline;padding-right:12px">
+        <span class="num" style="font-size:20px">4&ndash;2</span><span class="footnote stone">Tri-River 3&ndash;1</span></div>
+    </div>
+
+    <div class="col flow">
+      <div class="sect"><span class="label">How it was won</span></div>
+      ${svg}
+      <div class="caption2 dim" style="margin:-2px 0 4px"><span class="gain">Up</span>: your call worked &middot; <span class="loss">down</span>: it didn't &middot; dot: deferred</div>
+      <div class="km"><span class="t">1 &middot; 6:48</span><span>4th &amp; 2: you called Stick. Lund, 5 yards. First down.</span></div>
+      <div class="km"><span class="t">2 &middot; 4:02</span><span>Brandt to Ashby, 19 yards, touchdown. 27&ndash;24.</span></div>
+      <div class="km" style="border-bottom:none"><span class="t">3 &middot; 0:52</span><span>4th &amp; 7: Boateng beat their RT. Sack, game over.</span></div>
+    </div>
+
+    <div class="col plan">
+      <div class="sect"><span class="label">Your plan</span></div>
+      <div class="row"><div class="a"><span>Seams at Hollis</span><span class="chip chip-gain">Worked</span></div><div class="b">7 targets, 5 catches, 96 yards</div></div>
+      <div class="row"><div class="a"><span>Quick game vs blitz</span><span class="chip chip-gain">Worked</span></div><div class="b">3rd down 7 of 13; 1 sack allowed</div></div>
+      <div class="row"><div class="a"><span>Bracket Ellison</span><span class="chip chip-gain">Held</span></div><div class="b">4 for 38 yards; he averages 7 for 98</div></div>
+      <div class="row"><div class="a"><span>Take away inside zone</span><span class="chip chip-loss">Didn't</span></div><div class="b">14 carries, 71 yards: 5.1 a carry</div></div>
+      <div class="row" style="border-bottom:none"><div class="a"><span>Recover 2 h</span><span class="chip chip-loss">Cost</span></div><div class="b">Price cramped up in Q4; Mosley finished</div></div>
+      <div class="panel" style="padding:5px 7px;margin-top:4px"><div class="caption semibold">Your calls: 22</div>
+        <div class="caption2 stone">5 deferred &middot; 4th downs 2 of 3 &middot; 2 timeouts used</div></div>
+    </div>
+
+    <div class="col after">
+      <div class="sect"><span class="label">Aftermath</span></div>
+      <div class="row"><div class="a"><span>Job security</span><span class="gain num" style="font-size:14px">60 &rarr; 67</span></div><div class="b">AD Vance: "A road win at Sedalia. That's the job."</div></div>
+      <div class="row"><div class="a"><span>Standing</span><span class="num" style="font-size:14px">4th &rarr; 3rd</span></div><div class="b">Tri-River, one game back</div></div>
+      <div class="row"><div class="a"><span class="loss">Ashby (WR)</span></div><div class="b">Hamstring strain, out 1&ndash;3 weeks</div></div>
+      <div class="row"><div class="a"><span>Okafor (LT)</span><span class="gain num" style="font-size:14px">74 &rarr; 75</span></div><div class="b">Pass protection</div></div>
+      <div class="row"><div class="a"><span>Boateng (DE)</span><i class="pennant"></i></div><div class="b">4 of 4 redshirt games used</div></div>
+      <div class="row" style="border-bottom:none"><div class="a"><span>Durant (WR)</span></div><div class="b">Moved you up to 1st</div></div>
+    </div>
+
+    <div class="foot"><div class="continue"><span class="k">Continue</span><span class="v">Week 7 vs Hot Springs</span></div></div>
+  </div>
+</div>`);
+</script>
+</body></html>

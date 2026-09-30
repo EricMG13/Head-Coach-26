@@ -1,0 +1,83 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<link rel="stylesheet" href="../css/tokens.css">
+<script src="../js/common.js"></script>
+<style>
+  .tabs { position: absolute; left: 14px; top: 50px; display: flex; gap: 10px; align-items: center; }
+  .form { position: absolute; left: 14px; top: 88px; width: 420px; height: 266px; }
+  .form .los { position: absolute; left: 281px; top: -4px; bottom: 0; width: 0; border-left: 1.5px dashed rgba(238,241,234,0.35); }
+  .card { position: absolute; width: 136px; height: 36px; padding: 4px 7px; border-radius: 6px; background: var(--raised); box-shadow: inset 0 0 0 1px var(--line); }
+  .card .r1, .card .r2 { display: flex; align-items: baseline; gap: 5px; white-space: nowrap; line-height: 15px; }
+  .card .r2 { line-height: 13px; }
+  .card .p { font-family: "Display"; font-weight: 600; font-size: 11px; line-height: 12px; letter-spacing: 0.06em; color: var(--stone); width: 22px; flex: none; }
+  .card .n { font-size: var(--fs-caption); line-height: 14px; font-weight: 600; flex: 1; overflow: hidden; }
+  .card .o { font-family: "Display"; font-weight: 600; font-size: 14px; line-height: 14px; }
+  .card .r2 { font-size: var(--fs-caption2); line-height: 12px; color: var(--stone); }
+  .card .r2 .n { font-weight: 400; font-size: var(--fs-caption2); line-height: 12px; }
+  .card.flag { box-shadow: inset 0 0 0 1.5px var(--flag); }
+  .card .chip { font-size: 9.5px; padding: 0 4px; line-height: 12px; }
+  .needs { position: absolute; left: 442px; right: 12px; top: 48px; }
+  .need { padding: 5px 8px 6px; margin-bottom: 5px; }
+  .need .t { display: flex; gap: 6px; align-items: center; font-size: var(--fs-caption); font-weight: 600; line-height: 15px; }
+  .need .d { font-size: var(--fs-caption2); line-height: 13px; color: var(--stone); margin-top: 2px; }
+  .need .btns { display: flex; gap: 4px; margin-top: 5px; }
+  .need .btn { min-height: 30px; padding: 0 4px; font-size: var(--fs-caption); flex: 1; }
+  .foot { position: absolute; right: 12px; bottom: 4px; }
+</style></head>
+<body><div id="root"></div>
+<script>
+const card = (x, y, pos, name, ovr, back, bovr, chips = "", flag = false) => `<div class="card ${flag ? "flag" : ""}" style="left:${x}px;top:${y}px">
+  <div class="r1"><span class="p">${pos}</span><span class="n">${name}</span>${chips}<span class="o">${ovr}</span></div>
+  <div class="r2"><span class="p"></span><span class="n">${back}</span><span>${bovr}</span></div></div>`;
+const hot = `<span class="chip chip-loss">Hot</span>`, q = `<span class="chip chip-loss">Q</span>`;
+const QX = 0, OX = 141, WX = 284;
+document.getElementById("root").innerHTML = device(`
+<div class="safe">
+  ${rail("marlow", "squad", ["prep", "recruit", "squad"])}
+  <div class="content">
+    <div class="hdr">
+      <div style="display:flex;align-items:baseline;gap:12px"><span class="ttl">Depth chart</span>
+        <span class="ctx">For Saturday at Sedalia A&amp;M</span></div>
+      <div class="footnote stone" style="padding-right:12px">Roster <b class="chalk">104</b> of 105 &middot; scholarships <b class="chalk">85</b> of 85</div>
+    </div>
+    <div class="tabs"><span class="seg"><span class="on">Offense</span><span>Defense</span><span>Special teams</span></span>
+      <span class="caption stone">11 personnel &middot; wide zone</span></div>
+
+    <div class="form">
+      <div class="los"></div>
+      ${card(OX, 0, "LT", "Okafor", 76, "Whitt", 64, hot)}
+      ${card(OX, 38, "LG", "Voss", 71, "Achterberg", 63)}
+      ${card(OX, 76, "C", "Dunn", 73, "Rudd", 61)}
+      ${card(OX, 114, "RG", "Castellanos", 68, "Taufa", 66)}
+      ${card(OX, 152, "RT", "Keel", 70, "Osei", 62)}
+      ${card(OX, 190, "TE", "Lund", 72, "Marsh", 65)}
+      ${card(WX, 0, "X", "Ashby", 78, "Moreland", 66)}
+      ${card(WX, 190, "SL", "Tate", 70, "Pace", 67)}
+      ${card(WX, 228, "Z", "Mack", 74, "Ivey", 63, hot)}
+      ${card(QX, 76, "QB", "Brandt", 77, "Petrakis (Fr)", 66)}
+      ${card(QX, 114, "RB", "Price", 75, "Mosley", 69, q, true)}
+    </div>
+
+    <div class="needs">
+      <div class="sect"><span class="label">Needs you</span></div>
+      <div class="panel need">
+        <div class="t"><i class="pennant"></i>Who starts at running back?</div>
+        <div class="d">Hamstring, and running hot. Starting him: Speed &minus;3, more re-injury risk.</div>
+        <div class="btns"><div class="btn btn-quiet">Price</div><div class="btn btn-quiet">Mosley</div><div class="btn btn-quiet">Game time</div></div>
+      </div>
+      <div class="panel need">
+        <div class="t"><i class="pennant"></i>Play Boateng (DE, freshman)?</div>
+        <div class="d">3 of his 4 redshirt games used. Their right tackle is their weakest starter.</div>
+        <div class="btns"><div class="btn btn-quiet">Play him</div><div class="btn btn-quiet">Save the game</div></div>
+      </div>
+      <div class="panel need" style="padding-bottom:6px">
+        <div class="t">Right guard is close</div>
+        <div class="d">Castellanos 68, Taufa 66. Taufa fits wide zone better.</div>
+      </div>
+    </div>
+
+    <div class="foot"><div class="continue"><span class="k">Continue</span><span class="v">Squad: 2 to decide</span></div></div>
+  </div>
+</div>`);
+</script>
+</body></html>

@@ -1,0 +1,55 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<meta name="full" content="1">
+<link rel="stylesheet" href="../css/tokens.css">
+<script src="../js/common.js"></script>
+<script src="../js/field.js"></script>
+<style>
+  /* At accessibility sizes the call-in becomes one scrolling column. Nothing is dropped: the field,
+     the details of the selected option and the last snap follow the options. */
+  .bug { display: flex; align-items: center; gap: 14px; height: 56px; font-family: "Display"; font-weight: 700; font-size: var(--fs-caption); line-height: 1; white-space: nowrap; border-bottom: 1px solid var(--line); }
+  .bug .pl { padding: 3px 10px 4px; border-radius: 6px; }
+  .scroll { position: absolute; left: 0; right: 0; top: 56px; bottom: 0; overflow: hidden; }
+  .bar { position: absolute; right: -8px; top: 60px; width: 5px; height: 64px; border-radius: 3px; background: rgba(238,241,234,0.5); }
+  .ttl { display: flex; align-items: center; gap: 14px; padding: 6px 0 8px; }
+  .ttl .pennant { transform: scale(2.6); transform-origin: left center; margin-right: 18px; }
+  .o { padding: 6px 14px 10px; border-radius: 10px; box-shadow: inset 0 0 0 1.5px var(--line-strong); margin-bottom: 10px; }
+  .o.sel { box-shadow: inset 0 0 0 3px var(--flag); background: rgba(244,197,66,0.06); }
+  .o .e { font-size: var(--fs-footnote); line-height: var(--lh-footnote); color: var(--fog); }
+  .o .e span { color: var(--flag); }
+  .det { padding: 4px 0 8px; font-size: var(--fs-footnote); line-height: var(--lh-footnote); color: var(--stone); }
+  .det b { color: var(--chalk); font-weight: 600; }
+  .bt { display: flex; align-items: center; justify-content: center; min-height: 72px; border-radius: 10px; font-size: var(--fs-subhead); line-height: var(--lh-subhead); font-weight: 600; margin-bottom: 10px; }
+  .fold { position: absolute; left: 0; right: 0; border-top: 3px dashed var(--flag); }
+  .fold span { position: absolute; right: 60px; top: -22px; font-family: "Display"; font-weight: 600; font-size: 16px; letter-spacing: 0.06em; color: var(--flag); background: var(--ground); padding: 0 8px; text-transform: uppercase; }
+</style></head>
+<body><div id="root"></div>
+<script>
+const full = location.search.includes("full=1");
+const M = CLUBS.marlow, S = CLUBS.sedalia;
+const bug = `<div class="bug">
+  <span class="pl" style="background:${M.primary};color:${M.plateText}">MARLOW 20</span>
+  <span class="pl" style="background:${S.primary};color:${S.plateText}">SEDALIA 24</span>
+  <span>Q4 6:48</span></div>`;
+const field = fieldSVG({ w: 734, h: 287, home: "sedalia", dimOthers: true, markR: 4.2, labelSize: 16, ...PRESNAP });
+const content = `
+  <div class="ttl"><i class="pennant"></i><span class="headline">4th &amp; 2 at the SED 36</span></div>
+  <div class="o sel"><div class="headline">Go: Stick to Lund</div><div class="e">58&ndash;67% &middot; <span>recommended</span></div></div>
+  <div class="o"><div class="headline">Go: Power right</div><div class="e">52&ndash;63%</div></div>
+  <div class="o"><div class="headline">Kick: 53-yard field goal</div><div class="e">35&ndash;48%</div></div>
+  <div class="det"><b>Whitcomb:</b> it beats their Cover 1 robber look.</div>
+  <div class="det"><b>Tries:</b> the ball out before #54 Pike gets home.</div>
+  <div class="det"><b>Risks:</b> Hollis jumps it: their ball at their 36.</div>
+  <div class="bt" style="background:var(--flag);color:var(--ink)">Call Stick</div>
+  <div class="bt" style="box-shadow:inset 0 0 0 1.5px var(--line-strong)">Defer to Whitcomb</div>
+  <div class="bt" style="box-shadow:inset 0 0 0 1.5px var(--line-strong)">Timeout (2 left)</div>
+  <div style="margin:6px 0 10px;border-radius:8px;overflow:hidden">${field}</div>
+  <div class="det"><b>Last snap, 3rd &amp; 6:</b> Price, outside zone, 4 yards. #21 Hollis came down to fill the alley.</div>`;
+if (full) {
+  document.getElementById("root").innerHTML = `<div id="full" class="ax5" style="position:relative;width:852px;padding:0 59px 30px;background:var(--ground)">
+    ${bug}${content}<div class="fold" style="top:372px"><span>First screen ends here &middot; the rest scrolls</span></div></div>`;
+} else {
+  document.getElementById("root").innerHTML = device(`<div class="safe">${bug}<div class="scroll">${content}</div><div class="bar"></div></div>`, { ax5: true });
+}
+</script>
+</body></html>

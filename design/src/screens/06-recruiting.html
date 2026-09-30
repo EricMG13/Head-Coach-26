@@ -1,0 +1,86 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<link rel="stylesheet" href="../css/tokens.css">
+<script src="../js/common.js"></script>
+<style>
+  .classbar { position: absolute; left: 14px; right: 12px; top: 45px; display: flex; gap: 14px; font-size: var(--fs-caption); line-height: 22px; color: var(--stone); border-bottom: 1px solid var(--line); }
+  .classbar b { color: var(--chalk); font-weight: 600; }
+  .board { position: absolute; left: 14px; top: 72px; width: 392px; }
+  .board { table-layout: fixed; }
+  .board td { padding: 3px 4px; overflow: visible; }
+  .board th { padding: 0 4px 4px; }
+  .nm { font-weight: 600; font-size: var(--fs-caption); line-height: 14px; }
+  .sub { font-size: var(--fs-caption2); line-height: 13px; color: var(--stone); }
+  .ev { display: flex; align-items: center; gap: 6px; }
+  .ev .range { width: 32px; }
+  .ev b { font-family: "Display"; font-weight: 600; font-size: 14px; color: var(--fog); }
+  .dos { position: absolute; left: 406px; right: 12px; top: 72px; bottom: 50px; padding: 5px 9px; }
+  .kv { display: flex; align-items: center; gap: 6px; font-size: var(--fs-caption2); line-height: 14px; margin-top: 3px; }
+  .kv .k { width: 58px; color: var(--stone); flex: none; }
+  .kv .range { flex: 1; }
+  .kv b { font-family: "Display"; font-weight: 600; font-size: 13px; color: var(--fog); width: 38px; text-align: right; }
+  .want { padding: 1px 0 2px; border-bottom: 1px solid var(--line); font-size: var(--fs-caption2); line-height: 13px; }
+  .want .d { color: var(--stone); }
+  .acts { display: flex; gap: 5px; margin-top: 3px; }
+  .acts .btn { min-height: 32px; padding: 0 6px; font-size: var(--fs-caption); flex: 1; }
+  .pts { display: flex; gap: 3px; align-items: center; }
+  .pts i { width: 7px; height: 12px; border-radius: 2px; }
+  .foot { position: absolute; right: 12px; bottom: 4px; }
+</style></head>
+<body><div id="root"></div>
+<script>
+const R = (name, pos, st, mi, lo, hi, interest, week, sel) => `<tr class="${sel ? "sel" : ""}">
+  <td><div class="nm">${name}</div><div class="sub">${pos} &middot; ${stars(st)} &middot; ${mi} mi</div></td>
+  <td><div class="ev">${rangeBar(lo, hi)}<b>${lo}&ndash;${hi}</b></div></td>
+  <td>${interest}</td><td>${week}</td></tr>`;
+const band = (rank, b, trend) => `<div class="nm">${rank}</div><div class="sub">${b}${trend ? ` <span class="${trend === "up" ? "gain" : "loss"}">${trend === "up" ? "&#9650;" : "&#9660;"}</span>` : ""}</div>`;
+const wk = (a, c) => `<div class="nm">${a}</div><div class="sub">${c}</div>`;
+let pips = "";
+for (let i = 0; i < 12; i++) pips += `<i style="${i < 7 ? "background:var(--stone)" : "box-shadow:inset 0 0 0 1.5px var(--flag)"}"></i>`;
+document.getElementById("root").innerHTML = device(`
+<div class="safe">
+  ${rail("marlow", "recruit", ["recruit", "prep", "squad"])}
+  <div class="content">
+    <div class="hdr">
+      <div style="display:flex;align-items:baseline;gap:12px"><span class="ttl">Recruiting</span>
+        <span class="ctx">Class of 2027 &middot; signing day Dec 9, 9 weeks out</span></div>
+      <div style="display:flex;gap:8px;align-items:center;padding-right:12px">
+        <span class="pts">${pips}</span>
+        <span class="num flag-c" style="font-size:16px;white-space:nowrap">5 of 12 points left</span></div>
+    </div>
+    <div class="classbar">
+      <span>Committed <b>6</b> of 25</span><span>Scholarships open <b>21</b></span><span>Offers out <b>29</b> of 42</span><span>Shortlist <b>18</b> of 40</span>
+    </div>
+
+    <table class="board">
+      <colgroup><col style="width:126px"><col style="width:86px"><col style="width:84px"><col style="width:96px"></colgroup>
+      <tr><th>Recruit</th><th>Your eval</th><th>Interest</th><th>This week</th></tr>
+      ${R("Malik Durant", "WR", 4, 248, 74, 84, band("You're 2nd", "Warm", "up"), wk("Call", "1 point"), true)}
+      ${R("Cole Szymanski", "OT", 3, 256, 68, 78, band("You're 1st", "Hot"), wk("Home visit", "4 points"))}
+      ${R("Andre Whitfield", "DE", 4, 25, 71, 85, band("You're 3rd", "Cool"), wk("Evaluate", "2 points"))}
+      ${R("Josiah Beaumont", "QB", 3, 283, 65, 79, band("You're 2nd", "Warm"), wk('<span class="dim">None</span>', ""))}
+      ${R("DeMarco Ellis", "CB", 4, 152, 70, 86, band("You're 4th", "Cool", "down"), wk('<span class="dim">None</span>', ""))}
+      ${R("Trent Kowalczyk", "LB", 2, 59, 64, 72, '<span class="chip chip-gain">Committed</span>', wk("Holds", "0 points"))}
+      ${R("Isaiah Pruitt", "S", 3, 57, 66, 80, '<div class="nm loss">Lost to</div><div class="sub">Ardmore Tech</div>', wk("+2 points", "next week"))}
+    </table>
+
+    <div class="panel dos">
+      <div style="display:flex;justify-content:space-between;align-items:baseline">
+        <span class="headline">Malik Durant</span><span class="caption stone">national #212</span></div>
+      <div class="caption2 stone">WR &middot; 6'2" &middot; 188 lb &middot; Temple, TX &middot; 248 mi</div>
+      <div class="kv"><span class="k">Evaluation</span>${rangeBar(74, 84)}<b>74&ndash;84</b></div>
+      <div class="kv"><span class="k">Potential</span>${rangeBar(80, 92)}<b>80&ndash;92</b></div>
+      <div style="height:2px"></div>
+      <div class="sect" style="margin-bottom:1px"><span class="label">What he wants</span></div>
+      <div class="want"><div style="display:flex;justify-content:space-between"><span>1 &middot; Early playing time</span><span class="chip chip-gain">Strong</span></div><div class="d">Our WR room is thin; he'd start in year 2</div></div>
+      <div class="want"><div style="display:flex;justify-content:space-between"><span>2 &middot; NIL</span><span class="chip chip-line">Fair</span></div><div class="d">We offer $40K; his market is $35K&ndash;$60K</div></div>
+      <div class="want"><div style="display:flex;justify-content:space-between"><span>3 &middot; Close to home</span><span class="chip chip-loss">Weak</span></div><div class="d">248 mi from us; Ardmore Tech is 213</div></div>
+      <div class="caption2" style="margin-top:3px"><span class="stone">His top 3:</span> Ardmore Tech, <b>you</b>, St. Aubin</div>
+      <div class="acts"><div class="btn btn-quiet" style="flex:1.25;flex-direction:column;gap:0;line-height:13px">Evaluate &middot; 2<span class="caption2 fog" style="font-weight:500">to about 76&ndash;82</span></div><div class="btn btn-quiet">Home visit &middot; 4</div></div>
+    </div>
+
+    <div class="foot"><div class="continue"><span class="k">Continue</span><span class="v">Squad: 2 flags</span></div></div>
+  </div>
+</div>`);
+</script>
+</body></html>
