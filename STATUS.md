@@ -2,8 +2,9 @@
 
 ## Where the project is
 
-Milestone 0, the look (GOAL §0). **Waiting for the owner to approve the images.** Nothing else is
-built until then.
+Milestone 0, the look (GOAL §0). **Waiting for the owner to approve v1 of the images.** v0 was
+reviewed: its information architecture was kept, and v1 adds game identity (club dress, gameday,
+moments). Nothing else is built until the look is approved.
 
 ## What exists
 
@@ -11,8 +12,9 @@ built until then.
 - `DESIGN.md` v0: what the coach does instead of pressing buttons, the week, both tiers, stakes,
   people, the world, and a table of every departure from the reference design.
 - `DECISIONS.md`: decisions so far, including the pending approval of the look.
-- `design/`: 13 screen images (plus full-scroll images for the two AX5 screens), their HTML
-  source, and a one-page index.
+- `design/`: 14 screen images (plus full-scroll images for the two AX5 screens), their HTML
+  source with the identity-kit generator (helmets, wordmarks, stripe rules, banners), and a
+  one-page index.
 
 ## What is verified, and how
 
@@ -21,8 +23,11 @@ built until then.
   if a page raises an error.
 - Contrast ratios on the visual-language sheet are computed by the page itself from the token
   values with the WCAG formula; they are not typed in by hand.
-- The numbers shared across images (score, record, job security, points spent, cap arithmetic)
-  were checked against each other and against the rules in `DESIGN.md`.
+- The numbers shared across images (score, record, job security, points spent, cap arithmetic,
+  the press-conference promise) were checked against each other and against the rules in
+  `DESIGN.md`.
+- Every club's colour pair (six clubs) was measured: plate text at least 4.5:1 and marks on turf
+  at least 3:1. One failed (Ardmore Tech, 4.05:1) and was fixed before these images were made.
 
 ## What is not built or verified
 

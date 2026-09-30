@@ -58,6 +58,14 @@ Every mandatory decision passes the three-part test:
 | Contact points | Who, and with which action | Interest rank moves weekly; commitments | Points spent elsewhere |
 | Inbox answers | 2–3 responses | Stakeholder and player dispositions | Points, hours or another group's goodwill |
 | A call-in | Up to 3 options plus defer | The next snap | The options not taken |
+| First words (once) | Three messages, each winning one group | That group's disposition, and its promise on the Program screen | The other two groups, and a promise you are held to |
+
+**Onboarding is the first real week**, with no tutorial cards. You choose one of three jobs, each
+showing the AD's expectation and the job's catch. Then comes the **introductory press conference**:
+one decision, your first words. Each of three messages raises one group's starting disposition by 5
+and records a promise that group holds you to, such as "8 in-state signees in your first class". A
+kept promise lifts that group at season end; a broken one drops it. Then the first week runs as
+normal.
 
 ## 3. The match
 
@@ -92,7 +100,9 @@ Every mandatory decision passes the three-part test:
 
 Each snap resolves as matchups (protection, route against coverage, throw, run lane, carrier
 against pursuit, kick), each scored by a logistic on the rating gap after scheme fit, install
-level, fatigue, traits and situation, plus one seeded draw per matchup in a fixed order. The whole
+level, fatigue, traits and situation, plus one seeded draw per matchup in a fixed order. **The home crowd** is part of the situation: its
+noise level (from attendance, what is at stake, and the home club's tradition) raises the visitors'
+pre-snap penalty and missed-block rates, and the home-win calibration band keeps it honest. The whole
 sport: kickoffs and onside kicks, punts, field goals, extra points, two-point tries, penalties
 (accepted or declined by rule), timeouts, the two-minute warning (pro), halves that alternate
 possession, and each tier's clock and overtime rules (college: the clock runs after a first down
@@ -102,7 +112,10 @@ drive-level model held statistically equivalent to the snap model (GOAL §8).
 
 ### 3.4 Presentation
 
-The whole field stays in frame; the camera never pans. Scorebug above, caption below. Offence is
+Match day is the **gameday register**: the stadium dresses in the home club's colours (end zones
+in its wordmark face, a painted midfield mark, sideline paint), both helmets sit on the scorebug,
+and a plate shows the venue, the attendance and the crowd's noise with its effect. The whole field
+stays in frame; the camera never pans. Scorebug above, caption below. Offence is
 drawn as discs, defence as chevrons: shape carries the role, colour carries the club. All 22
 players are present; at most four marks are emphasised (the deciding duel and the ball). Recorded
 facts are inviolable; other players move by deterministic templates that never assert a fact. A
@@ -203,6 +216,14 @@ the rest condense. Controls: speed, pause, skip to the next call, key moments.
 
 ## 8. The world
 
+**Every club has an identity kit**, generated through the same seam as its name: two colours; a
+wordmark face from a bank of three (varsity, slab, block), also used for its jersey numbers and end
+zones; a helmet (shell, stripe pattern, facemask and decal); a stripe rule taken from the helmet; a
+venue and capacity; and one **tradition with a mechanical effect**. Examples: Lantern Walk (official
+visits on that weekend count double), Foundry Bell (the home crowd stays loud for a series after a
+home score), Chapel Bells (a home win lifts the locker room a step). Your club dresses the frame of
+every screen. Earned titles and bowls hang as banners on the Program screen.
+
 Real US geography with fictional programmes placed in real towns; distance drives recruiting
 reach, travel and rivalry candidates. Fourteen archetypes set priors, and each programme carries
 one constraint from its archetype (an academic floor, a recruiting radius, thin facilities,
@@ -226,3 +247,5 @@ swaps) and history (typed events, headlines generated at display time) arrive in
 | 8 | Up to 3 highlighted marks | The deciding duel and the ball (up to 4); shape encodes role | The caption and the field tell the same story; colour is never the only cue | Testers cannot say why a play worked |
 | 9 | Support targets from prestige, performance from rank | Security moves toward a target in places, with stakeholder pressure | One unit from expectation to security | Security stays flat for more than 4 weeks while results change |
 | 10 | Practice as 60 minutes; NIL in abstract units | 20 hours (the college countable-hours rule); NIL in integer dollars | Real, recognisable numbers; money is always dollars | — |
+| 11 | Onboarding: meet the AD | An introductory press conference with one decision that sets a promise | The first minute of the save is already a real decision with stakes | Players skip it or cannot recall their promise later |
+| 12 | Archetypes, name banks and generated colours | Plus a generated identity kit per club: helmet, wordmark face, stripe rule, venue and a tradition with an effect | A believable world needs pageantry, and each piece has a mechanical hook | Traditions have no measurable effect in a soak |
