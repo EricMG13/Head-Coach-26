@@ -1,0 +1,106 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<link rel="stylesheet" href="../css/tokens.css">
+<script src="../js/common.js"></script>
+<style>
+  .col { position: absolute; top: 48px; }
+  .film { left: 14px; width: 166px; }
+  .plan { left: 194px; width: 292px; }
+  .prac { left: 500px; width: 162px; }
+  .tend { padding: 2px 0 3px; border-bottom: 1px solid var(--line); }
+  .tend .l { font-size: var(--fs-caption); line-height: 15px; white-space: nowrap; }
+  .tend .v { display: flex; align-items: center; gap: 8px; }
+  .tend .v .range { flex: 1; }
+  .tend .v b { font-family: "Display"; font-weight: 600; font-size: 14px; line-height: 16px; color: var(--fog); width: 48px; text-align: right; }
+  .pick { display: flex; gap: 6px; padding: 3px 0; }
+  .box { width: 13px; height: 13px; border-radius: 3px; flex: none; margin-top: 1px; box-shadow: inset 0 0 0 1.5px var(--stone); position: relative; }
+  .box.on { background: var(--flag); box-shadow: none; }
+  .box.on::after { content: ""; position: absolute; left: 4px; top: 1.5px; width: 3.5px; height: 7px; border: solid var(--ink); border-width: 0 1.8px 1.8px 0; transform: rotate(45deg); }
+  .box.lock { box-shadow: inset 0 0 0 1.5px var(--line-strong); }
+  .pick .t { font-size: var(--fs-caption); line-height: 14px; font-weight: 600; white-space: nowrap; }
+  .pick .w { font-size: var(--fs-caption2); line-height: 13px; color: var(--stone); white-space: nowrap; }
+  .dial { display: flex; align-items: center; gap: 6px; margin-top: 4px; }
+  .dial .label { width: 58px; flex: none; }
+  .dial .seg span { padding: 0 6px; font-size: var(--fs-caption2); min-height: 26px; }
+  .hbar { display: flex; height: 12px; border-radius: 3px; overflow: hidden; margin: 2px 0 6px; }
+  .hrow { padding: 3px 0 4px; border-bottom: 1px solid var(--line); }
+  .hrow .a { display: flex; justify-content: space-between; align-items: center; }
+  .hrow .nm { display: flex; align-items: center; gap: 6px; font-size: var(--fs-caption); font-weight: 600; }
+  .sw { width: 8px; height: 8px; border-radius: 2px; }
+  .step { display: flex; align-items: center; gap: 0; box-shadow: inset 0 0 0 1px var(--line-strong); border-radius: 5px; height: 22px; }
+  .step span { width: 22px; text-align: center; color: var(--stone); font-size: 14px; }
+  .step b { font-family: "Display"; font-weight: 600; font-size: 15px; width: 30px; text-align: center; }
+  .hrow .e { font-size: var(--fs-caption2); line-height: 13px; color: var(--stone); margin-top: 2px; }
+  .note { margin-top: 7px; padding: 5px 7px; font-size: var(--fs-caption2); line-height: 13px; }
+  .foot { position: absolute; left: 14px; right: 12px; bottom: 4px; display: flex; justify-content: space-between; align-items: center; }
+</style></head>
+<body><div id="root"></div>
+<script>
+const tend = (label, lo, hi) => `<div class="tend"><div class="l">${label}</div><div class="v">${rangeBar(lo, hi, 0, 100)}<b>${lo}&ndash;${hi}%</b></div></div>`;
+const pick = (state, t, w) => `<div class="pick"><i class="box ${state}"></i><div><div class="t" ${state === "lock" ? 'style="color:var(--dim)"' : ""}>${t}</div><div class="w">${w}</div></div></div>`;
+document.getElementById("root").innerHTML = device(`
+<div class="safe">
+  ${rail("marlow", "prep", ["prep", "recruit", "squad"])}
+  <div class="content">
+    <div class="hdr">
+      <div style="display:flex;align-items:baseline;gap:12px"><span class="ttl">Prep</span>
+        <span class="ctx">vs Sedalia A&amp;M (4&ndash;1) &middot; draft plan loaded</span></div>
+      <div style="display:flex;gap:8px;align-items:center;padding-right:12px;margin-bottom:-4px"><div class="btn btn-quiet btn-sm" style="min-height:30px">Delegate to Whitcomb and Maldonado</div></div>
+    </div>
+
+    <div class="col film">
+      <div class="sect"><span class="label">On film &middot; 4 h</span></div>
+      ${tend("3rd-down blitz", 38, 52)}
+      ${tend("Cover 1, short yardage", 55, 75)}
+      ${tend("Run share", 44, 54)}
+      ${tend("Ellison's target share", 34, 44)}
+      ${tend("Inside zone, of their runs", 55, 68)}
+      <div class="caption2 dim" style="margin-top:5px">Every film hour narrows these ranges and the coordinator's estimates in the match.</div>
+    </div>
+
+    <div class="col plan">
+      <div style="display:flex;gap:12px">
+        <div style="flex:1">
+          <div class="sect"><span class="label">Attack &middot; pick 2</span></div>
+          ${pick("on", "Seams at #21 Hollis", "Beaten on 4 of 7 seams")}
+          ${pick("on", "Quick game vs pressure", "Blitz on 3rd: 38&ndash;52%")}
+          ${pick("", "Outside zone at #91", "Reyes crashes inside")}
+          ${pick("", "Play-action shots", "Risky against the blitz")}
+        </div>
+        <div style="flex:1">
+          <div class="sect"><span class="label">Take away &middot; pick 2</span></div>
+          ${pick("on", "Bracket #1 Ellison", "34&ndash;44% of targets")}
+          ${pick("on", "Inside zone", "55&ndash;68% of runs")}
+          ${pick("", "Burris scrambles", "7.1 yards a scramble")}
+          ${pick("", "Screens", "1 in 9 of their plays")}
+        </div>
+      </div>
+      <div class="pick" style="padding-top:1px"><i class="box lock"></i><div class="caption2 dim" style="line-height:14px">A fifth option on each side needs 6 h of film.</div></div>
+      <div class="sect" style="margin-top:4px"><span class="label">Dials</span></div>
+      <div class="dial"><span class="label">Tempo</span><span class="seg"><span>Huddle</span><span class="on">Normal</span><span>Hurry-up</span></span></div>
+      <div class="dial"><span class="label">4th down</span><span class="seg"><span>Cautious</span><span class="on">By the numbers</span><span>Aggressive</span></span></div>
+      <div class="dial"><span class="label">Lean</span><span class="seg"><span>&minus;</span><span class="on">Run 45 &middot; Pass 55</span><span>+</span></span></div>
+    </div>
+
+    <div class="col prac">
+      <div class="sect"><span class="label">Practice &middot; 20 h</span></div>
+      <div class="hbar"><i style="flex:4;background:var(--fog)"></i><i style="flex:8;background:var(--chalk);margin-left:1px"></i><i style="flex:6;background:var(--gain);margin-left:1px"></i><i style="flex:2;background:var(--stone);margin-left:1px"></i></div>
+      <div class="hrow"><div class="a"><span class="nm"><i class="sw" style="background:var(--fog)"></i>Film</span><span class="step"><span>&minus;</span><b>4 h</b><span>+</span></span></div>
+        <div class="e">4 options on each side</div></div>
+      <div class="hrow"><div class="a"><span class="nm"><i class="sw" style="background:var(--chalk)"></i>Install</span><span class="step"><span>&minus;</span><b>8 h</b><span>+</span></span></div>
+        <div class="e">All 4 packages Repped</div></div>
+      <div class="hrow"><div class="a"><span class="nm"><i class="sw" style="background:var(--gain)"></i>Develop</span><span class="step"><span>&minus;</span><b>6 h</b><span>+</span></span></div>
+        <div class="e">Focus: offensive line</div></div>
+      <div class="hrow" style="border-bottom:none"><div class="a"><span class="nm"><i class="sw" style="background:var(--stone)"></i>Recover</span><span class="step"><span>&minus;</span><b>2 h</b><span>+</span></span></div>
+        <div class="e loss">Price, Okafor, Mack run hot</div></div>
+      <div class="panel note"><span class="semibold">Whitcomb:</span> <span class="stone">"Move an hour from Develop to Recover. We need Price late."</span></div>
+    </div>
+
+    <div class="foot">
+      <div></div>
+      <div class="continue"><span class="k">Set the plan</span><span class="v">Next: recruiting</span></div>
+    </div>
+  </div>
+</div>`, { club: "marlow" });
+</script>
+</body></html>

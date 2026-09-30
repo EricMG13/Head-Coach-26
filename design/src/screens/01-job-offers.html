@@ -1,0 +1,72 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<link rel="stylesheet" href="../css/tokens.css">
+<script src="../js/common.js"></script>
+<style>
+  .top { position: absolute; left: 0; right: 0; top: 0; display: flex; align-items: flex-end; justify-content: space-between; padding: 7px 0 6px; border-bottom: 1px solid var(--line); }
+  .offers { position: absolute; left: 0; right: 0; top: 44px; bottom: 1px; display: flex; gap: 10px; }
+  .offer { flex: 1; border-radius: var(--r-panel); background: var(--surface); overflow: hidden; display: flex; flex-direction: column; }
+  .poster { position: relative; flex: none; height: 94px; padding: 7px 10px 0 8px; }
+  .poster .row1 { display: flex; gap: 8px; align-items: center; }
+  .poster .meta { font-size: var(--fs-caption2); line-height: 13px; opacity: .92; white-space: nowrap; margin: 1px 0 0 2px; }
+  .poster .foot { position: absolute; left: 10px; right: 10px; bottom: 5px; display: flex; justify-content: space-between; font-size: var(--fs-caption2); line-height: 13px; }
+  .pennant-s { display: inline-flex; align-items: center; gap: 4px; font-family: "Display"; font-weight: 700; font-size: 11px; letter-spacing: .06em; text-transform: uppercase; }
+  .rows { padding: 1px 10px; flex: 1; }
+  .rw { padding: 1px 0 1px; border-bottom: 1px solid var(--line); }
+  .rw .k { font-family: "Display"; font-weight: 600; font-size: 11px; line-height: 13px; letter-spacing: 0.08em; color: var(--stone); text-transform: uppercase; }
+  .rw .v { font-size: var(--fs-caption); line-height: 15px; white-space: nowrap; }
+  .rw.exp .v { font-weight: 600; }
+  .quote { padding: 3px 10px 0; font-size: var(--fs-caption2); line-height: 13px; }
+  .take { margin: 5px 10px 7px; min-height: 36px; }
+</style></head>
+<body><div id="root"></div>
+<script>
+const offer = (club, arch, conf, title, rows, ad, quote) => {
+  const c = CLUBS[club];
+  return `<div class="offer">
+    <div class="poster" style="background:linear-gradient(160deg, ${c.primary} 0%, ${c.deep} 100%);color:${c.plateText}">
+      <div style="position:absolute;left:0;right:0;top:0">${stripeRule(club, 5)}</div>
+      <div class="row1" style="margin-top:3px">${helmet(club, 56)}<div>
+        ${wordmark(club, c.name.length > 13 ? 14 : 17, c.plateText)}
+        <div style="font-family:Display;font-weight:700;font-size:12px;letter-spacing:.12em;margin-top:3px">${c.nick.toUpperCase()}</div></div></div>
+      <div class="meta">${c.place.replace(/, (\w+)$/, (m, st) => ", " + ({ Oklahoma: "OK", Texas: "TX", Arkansas: "AR" })[st])} &middot; ${arch}</div>
+      <div class="foot"><span>${c.venue} &middot; ${c.capacity.toLocaleString("en-US")}</span><span class="pennant-s">${title}</span></div>
+    </div>
+    <div class="rows">${rows.map((r) => Array.isArray(r[0])
+      ? `<div class="rw" style="display:flex;gap:10px">${r.map(([k, v]) => `<div style="flex:1"><div class="k">${k}</div><div class="v">${v}</div></div>`).join("")}</div>`
+      : `<div class="rw ${r[2] || ""}"><div class="k">${r[0]}</div><div class="v">${r[1]}</div></div>`).join("")}</div>
+    <div class="quote"><span class="semibold">${ad}:</span> <span class="stone">"${quote}"</span></div>
+    <div class="btn btn-quiet take">Take the job</div></div>`;
+};
+document.getElementById("root").innerHTML = device(`
+<div class="safe">
+  <div class="top">
+    <div style="display:flex;align-items:center;gap:10px;padding-left:2px"><i class="pennant"></i><span class="ttl" style="font-family:Display;font-weight:700;font-size:24px;line-height:24px;letter-spacing:.03em;text-transform:uppercase">Three programs want to talk</span></div>
+    <div class="footnote stone">Coach Jordan Hale &middot; wide zone, 4-2-5 quarters</div>
+  </div>
+  <div class="offers">
+    ${offer("marlow", "Regional riser", "", "Last title 1998", [
+      [["Conference", "Tri-River (12)"], ["Prestige", "52 &middot; 64th of 134"]],
+      ["Your AD expects", '<span class="flag-c">6th</span> in the Tri-River', "exp"],
+      ["The catch", "Thin line: 2 starters return"],
+      [["Scheme fit", "14 of 22"], ["NIL pot", "$2,400,000"]],
+      ["Contract", "4 years at $1,850,000"]],
+      "AD Priscilla Vance", "Ten years of .500 football. Show me a plan.")}
+    ${offer("amarillo", "Commuter school", "", "No titles yet", [
+      [["Conference", "Llano (12)"], ["Prestige", "31 &middot; 112th of 134"]],
+      ["Your AD expects", '<span class="flag-c">8th</span> in the Llano', "exp"],
+      ["The catch", "Recruits within 200 miles only"],
+      [["Scheme fit", "9 of 22"], ["NIL pot", "$900,000"]],
+      ["Contract", "5 years at $1,050,000"]],
+      "AD Ron Beckett", "Nobody expects anything here. That is the chance.")}
+    ${offer("staubin", "Private academic", "", "Last title 2016", [
+      [["Conference", "Tri-River (12)"], ["Prestige", "58 &middot; 49th of 134"]],
+      ["Your AD expects", '<span class="flag-c">4th</span> in the Tri-River', "exp"],
+      ["The catch", "Recruits need a 3.2 GPA"],
+      [["Scheme fit", "17 of 22"], ["NIL pot", "$3,100,000"]],
+      ["Contract", "3 years at $2,300,000"]],
+      "AD Diane Whitlow", "We win the right way, and we win now.")}
+  </div>
+</div>`, { club: "marlow" });
+</script>
+</body></html>

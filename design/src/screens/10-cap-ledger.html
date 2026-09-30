@@ -1,0 +1,87 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<link rel="stylesheet" href="../css/tokens.css">
+<script src="../js/common.js"></script>
+<style>
+  .sum { position: absolute; left: 14px; top: 48px; width: 428px; }
+  .bar { position: relative; height: 14px; border-radius: 3px; background: var(--line); margin: 3px 0 4px; }
+  .bar i { position: absolute; top: 0; bottom: 0; }
+  .bar .cap { position: absolute; top: -4px; bottom: -4px; width: 2px; background: var(--chalk); }
+  .legend { display: flex; gap: 9px; font-size: var(--fs-caption2); line-height: 13px; color: var(--stone); white-space: nowrap; }
+  .legend b { color: var(--chalk); font-weight: 600; }
+  .sw { display: inline-block; width: 8px; height: 8px; border-radius: 2px; margin-right: 4px; }
+  .ledger { position: absolute; left: 14px; top: 106px; width: 428px; table-layout: fixed; }
+  .ledger td { padding: 3px 4px; font-size: var(--fs-caption); line-height: 14px; }
+  .ledger th { padding: 0 4px 3px; font-size: 11px; }
+  .ledger td.r { font-family: "Display"; font-weight: 600; font-size: 14px; }
+  .pl .n { font-weight: 600; }
+  .pl .s { font-size: var(--fs-caption2); line-height: 12px; color: var(--stone); }
+  .side { position: absolute; left: 454px; right: 12px; top: 48px; }
+  .opt { padding: 5px 8px; border-radius: var(--r-control); box-shadow: inset 0 0 0 1px var(--line-strong); margin-bottom: 5px; position: relative; }
+  .opt.sel { box-shadow: inset 0 0 0 1.5px var(--flag); background: rgba(244,197,66,0.06); }
+  .opt .t { font-size: var(--fs-caption); line-height: 15px; font-weight: 600; }
+  .opt .d { font-size: var(--fs-caption2); line-height: 13px; color: var(--stone); }
+  .rec-tab { position: absolute; right: 8px; top: -7px; font-family: "Display"; font-weight: 600; font-size: 10.5px; line-height: 12px; letter-spacing: 0.08em; padding: 0 5px; border-radius: 3px; background: var(--ground); color: var(--flag); box-shadow: inset 0 0 0 1px var(--flag); }
+  .foot { position: absolute; right: 12px; bottom: 4px; }
+</style></head>
+<body><div id="root"></div>
+<script>
+const M = (v) => (v < 0 ? "&minus;$" : "$") + (Math.abs(v) / 1e6).toFixed(2) + "M";
+const row = (n, pos, age, yrs, base, bonus, note = "", noteClass = "stone") => {
+  const hit = base + bonus, dead = bonus * yrs, save = hit - dead;
+  return `<tr><td class="pl"><div class="n">${n}</div><div class="s">${pos} &middot; ${age}${note ? ` &middot; <span class="${noteClass}">${note}</span>` : ""}</div></td>
+    <td class="r">${yrs}</td><td class="r stone">${M(base)}</td><td class="r stone">${M(bonus)}</td><td class="r">${M(hit)}</td>
+    <td class="r loss">${M(dead)}</td><td class="r ${save < 0 ? "loss" : "gain"}">${M(save)}</td></tr>`;
+};
+const cap = 383400000, active = 361230000, dead = 16410000, picks = 9970000, scale = 428 / 400000000;
+document.getElementById("root").innerHTML = device(`
+<div class="safe">
+  ${rail("hartford", "office", ["office"], "pro")}
+  <div class="content">
+    <div class="hdr">
+      <div style="display:flex;align-items:baseline;gap:12px"><span class="ttl">Cap ledger</span>
+        <span class="ctx">2033 &middot; Hartford Sentinels &middot; your first pro offseason</span></div>
+      <div class="footnote stone" style="padding-right:12px">League year: <b class="chalk">Mar 12</b>, 9 days</div>
+    </div>
+
+    <div class="sum">
+      <div style="display:flex;justify-content:space-between;align-items:baseline">
+        <span class="label">Committed against the cap</span>
+        <span class="caption"><span class="num" style="font-size:15px">$387,610,000</span> <span class="stone">of</span> <span class="num" style="font-size:15px">$383,400,000</span></span></div>
+      <div class="bar">
+        <i style="left:0;width:${active * scale}px;background:var(--stone);border-radius:3px 0 0 3px"></i>
+        <i style="left:${active * scale}px;width:${dead * scale}px;background:var(--loss)"></i>
+        <i style="left:${(active + dead) * scale}px;width:${picks * scale}px;background:var(--fog)"></i>
+        <span class="cap" style="left:${cap * scale - 1}px"></span>
+      </div>
+      <div class="legend"><span><i class="sw" style="background:var(--stone)"></i>53 contracts <b>$361.23M</b></span>
+        <span><i class="sw" style="background:var(--loss)"></i>Dead money <b>$16.41M</b></span>
+        <span><i class="sw" style="background:var(--fog)"></i>7 picks reserved <b>$9.97M</b></span></div>
+    </div>
+
+    <table class="ledger">
+      <colgroup><col style="width:128px"><col style="width:28px"><col><col><col><col><col></colgroup>
+      <tr><th>6 of 53</th><th class="r">Yrs</th><th class="r">Base</th><th class="r">Bonus</th><th class="r">Cap hit</th><th class="r">Dead</th><th class="r">Saves</th></tr>
+      ${row("Caleb Rourke", "QB", 30, 3, 41000000, 9000000)}
+      ${row("Marcus Vail", "EDGE", 31, 2, 22500000, 6500000, "declining", "loss")}
+      ${row("Andre Castile", "WR", 27, 4, 17200000, 7800000)}
+      ${row("Tobi Okafor", "LT", 27, 4, 13500000, 5000000, "Marlow State", "fog")}
+      ${row("Pete Lindqvist", "DT", 32, 1, 11750000, 1500000, "declining", "loss")}
+      ${row("Harris Cole", "RB", 28, 2, 6400000, 1600000, "declining", "loss")}
+    </table>
+
+    <div class="side">
+      <div class="sect"><span class="label">To be compliant</span></div>
+      <div style="display:flex;align-items:center;gap:6px"><i class="pennant"></i><span class="num loss" style="font-size:22px">Over by $4,210,000</span></div>
+      <div class="caption2 stone" style="margin:1px 0 6px">The calendar stops at Mar 12 until you are under.</div>
+      <div class="panel" style="padding:5px 7px;margin-bottom:9px;font-size:var(--fs-caption2);line-height:13px"><span class="semibold">Kimbrough (personnel):</span> <span class="stone">"Restructure Rourke. Lindqvist is our only DT over 70."</span></div>
+      <div class="opt sel"><span class="rec-tab">RECOMMENDED</span><div class="t">Restructure Rourke</div><div class="d">Saves $16M in 2033; adds $8M to 2034 and $8M to 2035</div></div>
+      <div class="opt"><div class="t">Release Lindqvist</div><div class="d">Saves $11.75M; $1.5M dead</div></div>
+      <div class="opt"><div class="t">Release Cole</div><div class="d">Saves $4.8M; $3.2M dead</div></div>
+    </div>
+
+    <div class="foot"><div class="continue"><span class="k">Restructure</span><span class="v">Then: free agency, wave 1</span></div></div>
+  </div>
+</div>`, { club: "hartford" });
+</script>
+</body></html>

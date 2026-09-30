@@ -1,0 +1,53 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<meta name="full" content="1">
+<link rel="stylesheet" href="../css/tokens.css">
+<script src="../js/common.js"></script>
+<style>
+  /* At accessibility sizes the board becomes a list: one recruit per block, the same facts in the same
+     order. The rail keeps its icons and drops its labels (long-press shows them large). The dossier opens
+     as its own page; Continue moves to the end of the list. */
+  .ax-rail .item span { display: none; }
+  .ax-rail .item { height: 54px; }
+  .ax-rail .item svg { width: 28px; height: 28px; }
+  .top { display: flex; align-items: baseline; gap: 16px; height: 64px; padding-left: 14px; border-bottom: 1px solid var(--line); font-family: "Display"; font-weight: 700; font-size: var(--fs-title3); line-height: 64px; text-transform: uppercase; letter-spacing: 0.02em; white-space: nowrap; }
+  .scroll { position: absolute; left: 0; right: 0; top: 64px; bottom: 0; overflow: hidden; padding-left: 14px; }
+  .bar { position: absolute; right: -8px; top: 70px; width: 5px; height: 40px; border-radius: 3px; background: rgba(238,241,234,0.5); }
+  .rec { padding: 8px 12px 10px; border-bottom: 1px solid var(--line-strong); }
+  .rec .l { font-size: var(--fs-footnote); line-height: var(--lh-footnote); color: var(--stone); }
+  .rec .ev { display: flex; align-items: center; gap: 16px; }
+  .rec .ev .range { width: 200px; height: 30px; }
+  .rec .ev .range .track { top: 14px; height: 2px; }
+  .rec .ev .range .band { top: 3px; height: 24px; border-width: 4px; }
+  .rec .ev b { font-family: "Display"; font-weight: 600; font-size: var(--fs-footnote); color: var(--fog); }
+  .fold { position: absolute; left: 0; right: 0; border-top: 3px dashed var(--flag); }
+  .fold span { position: absolute; right: 60px; top: -22px; font-family: "Display"; font-weight: 600; font-size: 16px; letter-spacing: 0.06em; color: var(--flag); background: var(--ground); padding: 0 8px; text-transform: uppercase; }
+</style></head>
+<body><div id="root"></div>
+<script>
+const full = location.search.includes("full=1");
+const rec = (name, pos, st, mi, lo, hi, interest, week) => `<div class="rec">
+  <div class="headline">${name}</div>
+  <div class="l">${pos} &middot; ${mi} mi &middot; ${stars(st)}</div>
+  <div class="ev"><span class="l">Your eval</span>${rangeBar(lo, hi)}<b>${lo}&ndash;${hi}</b></div>
+  <div class="l chalk">${interest}</div>
+  <div class="l">${week}</div></div>`;
+const head = `<div class="top">Recruiting <span class="flag-c">&middot; 5 left</span></div>`;
+const content = `
+  ${rec("Malik Durant", "WR", 4, 248, 74, 84, 'You\'re 2nd &middot; Warm <span class="gain">&#9650;</span>', "This week: call, 1 point")}
+  ${rec("Cole Szymanski", "OT", 3, 256, 68, 78, "You're 1st &middot; Hot", "This week: home visit, 4 points")}
+  ${rec("Andre Whitfield", "DE", 4, 25, 71, 85, "You're 3rd &middot; Cool", "This week: evaluate, 2 points")}
+  ${rec("Josiah Beaumont", "QB", 3, 283, 65, 79, "You're 2nd &middot; Warm", "This week: none")}
+  ${rec("DeMarco Ellis", "CB", 4, 152, 70, 86, 'You\'re 4th &middot; Cool <span class="loss">&#9660;</span>', "This week: none")}
+  ${rec("Trent Kowalczyk", "LB", 2, 59, 64, 72, '<span class="gain">Committed to you</span>', "This week: holds, 0 points")}
+  ${rec("Isaiah Pruitt", "S", 3, 57, 66, 80, '<span class="loss">Lost to Ardmore Tech</span>', "Next week: 2 points back")}
+  <div style="padding:6px 12px 14px"><div class="continue" style="display:flex;min-height:80px;padding:8px 18px"><span class="k" style="font-size:var(--fs-subhead);line-height:var(--lh-subhead)">Continue</span><span class="v" style="font-size:var(--fs-footnote);line-height:var(--lh-footnote)">Squad: 2 flags</span></div></div>`;
+if (full) {
+  document.getElementById("root").innerHTML = `<div id="full" class="ax5" style="position:relative;width:852px;padding:0 59px 30px 119px;background:var(--ground)">
+    ${head}<div style="padding-left:14px">${content}</div><div class="fold" style="top:372px"><span>First screen ends here &middot; the rest scrolls</span></div></div>`;
+} else {
+  document.getElementById("root").innerHTML = device(`<div class="safe"><div class="ax-rail">${rail("marlow", "recruit", ["recruit", "prep", "squad"])}</div>
+    <div class="content">${head}<div class="scroll">${content}</div><div class="bar"></div></div></div>`, { ax5: true, club: "marlow" });
+}
+</script>
+</body></html>

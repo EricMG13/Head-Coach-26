@@ -1,0 +1,107 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<meta name="canvas" content="1400 960 2">
+<link rel="stylesheet" href="../css/tokens.css">
+<script src="../js/common.js"></script>
+<style>
+  body { background: var(--ground); }
+  .sheet { position: relative; width: 1400px; height: 960px; padding: 26px 32px; background: var(--ground); }
+  h1 { font-family: "Display"; font-weight: 700; font-size: 34px; line-height: 36px; letter-spacing: 0.03em; text-transform: uppercase; }
+  .rules { display: grid; grid-template-columns: repeat(5, 1fr); gap: 18px; margin-top: 8px; font-size: 13px; line-height: 17px; color: var(--stone); }
+  .rules b { color: var(--chalk); display: block; }
+  .h { font-family: "Display"; font-weight: 600; font-size: 14px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--stone); margin: 18px 0 8px; display: flex; gap: 8px; align-items: center; }
+  .h::after { content: ""; flex: 1; height: 6px; background: repeating-linear-gradient(90deg, var(--line-strong) 0 1px, transparent 1px 6px); }
+  .regs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .reg img { width: 100%; display: block; border-radius: 14px; }
+  .reg .t { font-family: "Display"; font-weight: 700; font-size: 17px; letter-spacing: .06em; text-transform: uppercase; margin-top: 7px; }
+  .reg .d { font-size: 12px; line-height: 16px; color: var(--stone); }
+  .kit { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+  .club { border-radius: 10px; overflow: hidden; background: var(--surface); }
+  .club .top { display: flex; align-items: center; gap: 10px; padding: 10px 12px 8px; }
+  .club .body { padding: 8px 12px 10px; font-size: 11.5px; line-height: 15px; color: var(--stone); }
+  .club .body b { color: var(--chalk); font-weight: 600; }
+  .sw { display: inline-block; width: 12px; height: 12px; border-radius: 3px; vertical-align: -2px; margin-right: 4px; box-shadow: inset 0 0 0 1px rgba(255,255,255,.2); }
+  .row3 { display: grid; grid-template-columns: 430px 1fr 1fr; gap: 26px; }
+  .pal { display: grid; grid-template-columns: repeat(6, 1fr); gap: 6px; }
+  .pal .blk { height: 34px; border-radius: 5px; display: flex; align-items: flex-end; padding: 3px 5px; font-family: "Display"; font-weight: 600; font-size: 11px; box-shadow: inset 0 0 0 1px var(--line); }
+  .pal span { display: block; font-size: 10.5px; line-height: 13px; color: var(--stone); margin-top: 2px; }
+  .cap { font-size: 11.5px; line-height: 15px; color: var(--stone); margin-top: 6px; }
+  .comp { display: flex; flex-wrap: wrap; gap: 12px; align-items: flex-start; }
+</style></head>
+<body><div id="root"></div>
+<script>
+const T = { ground: "#0C1210", surface: "#141C18", raised: "#1B2520", chalk: "#EEF1EA", stone: "#A9B5AE", dim: "#8A978F", flag: "#F4C542", ink: "#14120A", gain: "#5CC98C", loss: "#F47C72", fog: "#8DB8E2", turf: "#1C4A2D" };
+const worst = (hex) => Math.min(contrast(hex, T.ground), contrast(hex, T.surface), contrast(hex, T.raised)).toFixed(1);
+const pal = (name, hex, text, note) => `<div><div class="blk" style="background:${hex};color:${text}">${name}</div><span>${hex}<br>${note}</span></div>`;
+const kit = (k, tradition) => {
+  const c = CLUBS[k];
+  return `<div class="club"><div style="height:5px">${stripeRule(k, 5)}</div>
+    <div class="top" style="background:linear-gradient(160deg, ${c.primary} 0%, ${c.primary} 55%, ${c.deep} 160%)">${helmet(k, 70)}<div>${wordmark(k, c.name.length > 13 ? 13 : 16, c.plateText)}
+      <div style="font-family:Display;font-weight:700;font-size:12px;letter-spacing:.14em;color:${c.plateText};margin-top:3px">${c.nick.toUpperCase()}</div></div>
+      <div style="margin-left:auto">${helmet(k, 34, "left")}</div></div>
+    <div class="body"><span class="sw" style="background:${c.primary}"></span><span class="sw" style="background:${c.secondary}"></span>
+      plate text <b>${contrast(c.plateText, c.primary).toFixed(1)}:1</b> &middot; mark on turf <b>${contrast(c.ring, T.turf).toFixed(1)}:1</b><br>
+      Wordmark face: <b>${c.face}</b> &middot; ${c.venue}, ${c.capacity.toLocaleString("en-US")}<br>${tradition}</div></div>`;
+};
+document.getElementById("root").innerHTML = `<div class="sheet">
+  <h1>Chalkline v1 <span class="stone" style="font-weight:600">&middot; the look of Head Coach</span></h1>
+  <div class="rules">
+    <span><b>Every club brings its own dress.</b> Helmet, wordmark face, stripe pattern, venue and tradition come from one generator. Your club dresses the frame of every screen.</span>
+    <span><b>Three registers.</b> The office is calm and dense. Gameday is the stadium under lights. A moment is rare, full-bleed and yours.</span>
+    <span><b>Yellow is yours to decide.</b> A pennant marks a decision that is yours, and yellow marks the line to gain. Nothing else is yellow.</span>
+    <span><b>Blue is an estimate.</b> Always a range, never a point. Facts are chalk.</span>
+    <span><b>Earned things hang as banners.</b> Titles and bowls hang in the rafters, in the club's colours, with an empty one waiting.</span></div>
+
+  <div class="h">Three registers</div>
+  <div class="regs">
+    <div class="reg"><img src="../../03-week.png"><div class="t">The office</div><div class="d">Week, Prep, Squad, Recruit, Program, League. Your club's deep colour on the rail, its stripe under every header, chalk data on a dark ground.</div></div>
+    <div class="reg"><img src="../../05-match-call-in.png"><div class="t">Gameday</div><div class="d">The stadium dresses in the home club's colours: end zones in its wordmark face, a painted midfield mark, the crowd plate, helmets on the scorebug.</div></div>
+    <div class="reg"><img src="../../02-hired.png"><div class="t">A moment</div><div class="d">Hired, signing day, a rivalry trophy, a title, promotion. Full-bleed club colours and banners. Rare by design, and each still holds a real decision.</div></div>
+  </div>
+
+  <div class="h">The identity kit, generated for every club</div>
+  <div class="kit">
+    ${kit("marlow", "<b>Lantern Walk:</b> official visits on that weekend count double")}
+    ${kit("sedalia", "<b>Foundry Bell:</b> their crowd stays loud for a series after they score")}
+    ${kit("staubin", "<b>Chapel Bells:</b> a home win lifts the locker room's mood a step")}
+    ${kit("hartford", "<b>Pro:</b> the same kit; the rail and stripe carry the new club")}
+  </div>
+  <div class="cap">Colour pairs are checked when they are generated, never repaired afterwards: plate text at least 4.5:1, a player mark on turf at least 3:1, and the legible colour of the pair is the one used for text on the dark ground. Names and colours come through one seam so the final originality check lives in one place.</div>
+
+  <div class="row3" style="margin-top:4px">
+    <div>
+      <div class="h">Palette &middot; worst contrast on any surface</div>
+      <div class="pal">
+        ${pal("ground", T.ground, T.chalk, "base")}${pal("surface", T.surface, T.chalk, "panels")}${pal("raised", T.raised, T.chalk, "cards")}
+        ${pal("chalk", T.chalk, T.ink, worst(T.chalk) + ":1")}${pal("stone", T.stone, T.ink, worst(T.stone) + ":1")}${pal("dim", T.dim, T.ink, worst(T.dim) + ":1")}
+        ${pal("flag", T.flag, T.ink, worst(T.flag) + ":1")}${pal("gain", T.gain, T.ink, worst(T.gain) + ":1")}${pal("loss", T.loss, T.ink, worst(T.loss) + ":1")}
+        ${pal("fog", T.fog, T.ink, worst(T.fog) + ":1")}${pal("turf", T.turf, T.chalk, "field only")}${pal("ink", T.ink, T.chalk, "on flag " + contrast(T.ink, T.flag).toFixed(1) + ":1")}
+      </div>
+      <div class="cap">Gain and loss always come with a sign, an arrow or a word. Increase Contrast swaps stone and dim for chalk.</div>
+    </div>
+    <div>
+      <div class="h">Type</div>
+      <div style="display:flex;gap:14px;align-items:baseline"><span style="font-family:Display;font-weight:700;font-size:40px;line-height:40px">4TH &amp; 2</span><span class="label" style="font-size:14px">This week</span></div>
+      <div class="cap" style="margin-top:2px"><b class="chalk">Barlow Condensed</b> for numbers that matter, titles and caps labels.</div>
+      <div style="font-size:15px;margin-top:8px">Who starts at running back?</div>
+      <div class="cap" style="margin-top:2px"><b class="chalk">SF Pro</b> (Inter stands in here) for everything people read; Dynamic Type from Large to AX5.</div>
+      <div style="display:flex;gap:16px;align-items:baseline;margin-top:8px">
+        <span style="font-family:'Varsity';font-size:22px">VARSITY</span><span style="font-family:'Slab';font-size:21px">SLAB</span><span style="font-family:'Block';font-weight:900;font-size:24px">BLOCK</span></div>
+      <div class="cap" style="margin-top:2px">Three wordmark faces the generator assigns to clubs, also used for jersey numbers and end zones. All SIL Open Font License, bundled.</div>
+    </div>
+    <div>
+      <div class="h">Components</div>
+      <div class="comp">
+        <div class="continue"><span class="k">Continue</span><span class="v">Inbox: 2 to answer</span></div>
+        <div style="display:flex;gap:6px;align-items:center"><i class="pennant"></i><span class="chip chip-flag" style="font-family:Display;font-size:12px;letter-spacing:.08em">YOUR CALL</span></div>
+        <div style="width:170px"><div style="display:flex;justify-content:space-between;font-size:12px"><span class="stone">Your eval</span><span class="num fog" style="font-size:15px">74&ndash;84</span></div>${rangeBar(74, 84)}</div>
+        <div style="display:flex;gap:5px;align-items:flex-start">${banner("marlow", ["TRI-RIVER", "CHAMPIONS", "1998"], 50, 60)}${banner("marlow", ["", "", "?"], 50, 60, true)}</div>
+        <div style="padding:5px 8px;border-radius:6px;background:rgba(12,18,16,.9);box-shadow:inset 0 2px 0 #9FB0C3, inset 0 0 0 1px rgba(238,241,234,.18);font-family:Display;font-weight:700;font-size:11px;letter-spacing:.08em">
+          <span class="stone">CROWD</span> &nbsp;<span style="color:var(--chalk)">&#9646;&#9646;&#9646;&#9646;</span><span style="color:var(--line-strong)">&#9646;</span> LOUD</div>
+        <div class="cap" style="margin-top:0;width:100%">Unavailable controls stay visible and say why. Offense is a disc and defense a chevron, so colour is never the only cue.</div>
+      </div>
+    </div>
+  </div>
+</div>`;
+</script>
+</body></html>

@@ -1,0 +1,80 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<link rel="stylesheet" href="../css/tokens.css">
+<script src="../js/common.js"></script>
+<style>
+  .main { position: absolute; left: 14px; top: 50px; width: 372px; }
+  .beat { position: relative; display: flex; gap: 8px; padding: 5px 0 0 0; }
+  .beat .node { position: relative; width: 18px; flex: none; display: flex; justify-content: center; padding-top: 3px; }
+  .beat .node::after { content: ""; position: absolute; top: 19px; bottom: -6px; left: 8.5px; width: 1px; background: var(--line-strong); }
+  .beat:last-child .node::after { display: none; }
+  .beat .ring { width: 11px; height: 11px; border-radius: 50%; box-shadow: inset 0 0 0 1.5px var(--stone); margin-top: 2px; }
+  .beat .body { flex: 1; border-bottom: 1px solid var(--line); padding-bottom: 5px; }
+  .beat:last-child .body { border-bottom: none; }
+  .beat .top { display: flex; align-items: baseline; justify-content: space-between; padding-right: 16px; }
+  .beat .top .label { color: var(--chalk); }
+  .beat .top .st { font-size: var(--fs-footnote); line-height: 17px; font-weight: 600; }
+  .beat .det { font-size: var(--fs-caption); line-height: 15px; color: var(--stone); }
+  .beat .chev { position: absolute; right: 3px; top: 12px; width: 7px; height: 7px; border: solid var(--dim); border-width: 1.5px 1.5px 0 0; transform: rotate(45deg); }
+  .side { position: absolute; left: 404px; right: 12px; top: 54px; }
+  .chg { display: flex; gap: 8px; align-items: baseline; padding: 4px 0; border-bottom: 1px solid var(--line); font-size: var(--fs-caption); line-height: 15px; white-space: nowrap; }
+  .chg .k { width: 56px; flex: none; }
+  .foot { position: absolute; left: 14px; right: 12px; bottom: 4px; display: flex; justify-content: space-between; align-items: center; }
+  .opp { margin-top: 8px; padding: 6px 8px; display: flex; gap: 8px; align-items: center; }
+</style></head>
+<body><div id="root"></div>
+<script>
+document.getElementById("root").innerHTML = device(`
+<div class="safe">
+  ${rail("marlow", "week", ["prep", "recruit", "squad"])}
+  <div class="content">
+    <div class="hdr">
+      <div style="display:flex;align-items:baseline;gap:12px"><span class="ttl">Week 6</span>
+        <span class="ctx">Sat Oct 10 &middot; at Sedalia A&amp;M</span></div>
+      <div style="display:flex;gap:14px;align-items:baseline;padding-right:12px">
+        <span class="num" style="font-size:22px">3&ndash;2</span>
+        <span class="footnote stone">Tri-River 2&ndash;1 &middot; <span class="chalk semibold">4th</span> of 12</span></div>
+    </div>
+
+    <div class="main">
+      <div class="sect"><span class="label">This week</span></div>
+      <div class="beat"><div class="node"><i class="pennant"></i></div><div class="body">
+        <div class="top"><span class="label">Inbox</span><span class="st">2 need an answer</span></div>
+        <div class="det">AD Vance: a booster breakfast? Press: is Brandt your QB?</div></div><i class="chev"></i></div>
+      <div class="beat"><div class="node"><i class="pennant"></i></div><div class="body">
+        <div class="top"><span class="label">Prep</span><span class="st">Not set</span></div>
+        <div class="det">Whitcomb's draft is ready. 20 practice hours to split.</div></div><i class="chev"></i></div>
+      <div class="beat"><div class="node"><i class="pennant"></i></div><div class="body">
+        <div class="top"><span class="label">Recruiting</span><span class="st">12 contact points</span></div>
+        <div class="det">Standing orders cover 7. Durant visits in Week 7.</div></div><i class="chev"></i></div>
+      <div class="beat"><div class="node"><i class="pennant"></i></div><div class="body">
+        <div class="top"><span class="label">Squad</span><span class="st">2 flags</span></div>
+        <div class="det">Price is questionable. Boateng: 3 of 4 redshirt games.</div></div><i class="chev"></i></div>
+      <div class="beat"><div class="node"><div class="ring"></div></div><div class="body">
+        <div class="top"><span class="label">Match</span><span class="st">Sat 7:00 PM at Sedalia A&amp;M</span></div>
+        <div class="det">Whitcomb: "Their third-down pressure is the game."</div></div><i class="chev"></i></div>
+    </div>
+
+    <div class="side">
+      ${matchup("marlow", "sedalia", [
+        '<span class="chalk semibold">Sat 7:00 PM</span> &middot; Foundry Field &middot; 38,400 &middot; night',
+        'Sedalia 4&ndash;1, 2nd &middot; last met L 17&ndash;31',
+        '<span class="chalk">Foundry Bell:</span> crowd stays loud after they score'])}
+      <div class="sect" style="margin-top:8px"><span class="label">Since last week</span></div>
+      <div class="chg"><span class="k"><span class="chip chip-gain">W 27&ndash;20</span></span><span>vs Salina State, at home</span></div>
+      <div class="chg"><span class="k stone">Standing</span><span>5th <span class="stone">&rarr;</span> <b>4th</b> in the Tri-River</span></div>
+      <div class="chg"><span class="k stone">Job</span><span>Security 57 <span class="stone">&rarr;</span> <b class="gain">60</b> <span class="stone">&middot; expected 6th</span></span></div>
+      <div class="chg" style="border-bottom:none"><span class="k stone">Recruit</span><span>Durant (WR) moved you up to 2nd</span></div>
+    </div>
+
+    <div class="foot">
+      <div style="display:flex;align-items:center;gap:10px">
+        <div class="btn btn-quiet btn-sm dim" style="color:var(--dim)">Cruise to kickoff</div>
+        <span class="caption dim">Answer or delegate the inbox first</span>
+      </div>
+      <div class="continue"><span class="k">Continue</span><span class="v">Inbox: 2 to answer</span></div>
+    </div>
+  </div>
+</div>`, { club: "marlow" });
+</script>
+</body></html>

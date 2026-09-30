@@ -1,0 +1,88 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<link rel="stylesheet" href="../css/tokens.css">
+<script src="../js/common.js"></script>
+<style>
+  .col { position: absolute; top: 48px; }
+  .rat { left: 14px; width: 190px; }
+  .dev { left: 218px; width: 200px; }
+  .stat { left: 432px; width: 230px; }
+  .rrow { display: grid; grid-template-columns: 76px 1fr 24px 22px; align-items: center; gap: 6px; height: 17px; font-size: var(--fs-caption); }
+  .rrow b { font-family: "Display"; font-weight: 600; font-size: 15px; text-align: right; }
+  .rrow .d { font-size: var(--fs-caption2); text-align: right; }
+  .grp { font-family: "Display"; font-weight: 600; font-size: 11px; letter-spacing: 0.08em; color: var(--dim); text-transform: uppercase; margin: 4px 0 1px; }
+  .drv { display: flex; justify-content: space-between; align-items: center; height: 18px; border-bottom: 1px solid var(--line); font-size: var(--fs-caption); }
+  .dots { display: flex; gap: 3px; }
+  .dots i { width: 7px; height: 7px; border-radius: 50%; background: var(--gain); }
+  .dots i.neg { background: none; box-shadow: inset 0 0 0 1.5px var(--loss); }
+  .prog { height: 5px; background: var(--line); border-radius: 3px; position: relative; margin: 3px 0 2px; }
+  .prog i { position: absolute; left: 0; top: 0; bottom: 0; border-radius: 3px; background: var(--gain); }
+  .trait { padding: 3px 0 4px; border-bottom: 1px solid var(--line); }
+  .kv { padding: 2px 0 3px; border-bottom: 1px solid var(--line); font-size: var(--fs-caption); line-height: 15px; }
+  .kv .k { font-family: "Display"; font-weight: 600; font-size: 11px; letter-spacing: 0.08em; color: var(--stone); text-transform: uppercase; }
+  .ask { margin-top: 4px; padding: 5px 8px; box-shadow: inset 0 0 0 1px var(--line-strong); }
+  .ask .btns { display: flex; gap: 4px; margin-top: 5px; }
+  .ask .btn { min-height: 30px; padding: 0 4px; font-size: var(--fs-caption); flex: 1; }
+  .foot { position: absolute; right: 12px; bottom: 4px; }
+</style></head>
+<body><div id="root"></div>
+<script>
+const r = (k, v, d) => `<div class="rrow"><span class="stone">${k}</span>${ratingBar(v)}<b>${v}</b><span class="d ${d > 0 ? "gain" : "dim"}">${d > 0 ? "+" + d : "0"}</span></div>`;
+const dots = (n, neg) => `<span class="dots">${Array.from({ length: n }, () => `<i class="${neg ? "neg" : ""}"></i>`).join("")}</span>`;
+document.getElementById("root").innerHTML = device(`
+<div class="safe">
+  ${rail("marlow", "squad", ["prep", "recruit", "squad"])}
+  <div class="content">
+    <div class="hdr">
+      <div style="display:flex;align-items:baseline;gap:10px"><span style="font-family:'Varsity';font-size:30px;line-height:26px;color:var(--club-ink)">72</span><span class="ttl">Tobi Okafor</span>
+        <span class="ctx">LT &middot; RS sophomore &middot; age 20</span></div>
+      <div style="display:flex;gap:12px;align-items:baseline;padding-right:12px">
+        <span class="label">Overall</span><span class="num" style="font-size:24px">76</span>
+        <span class="label">Potential</span><span class="num fog" style="font-size:24px">81&ndash;88</span></div>
+    </div>
+
+    <div class="col rat">
+      <div class="sect"><span class="label">Ratings &middot; change</span></div>
+      <div class="grp">Position</div>
+      ${r("Pass pro", 74, 1)}${r("Run block", 71, 1)}${r("Hand use", 73, 1)}${r("Footwork", 64, 1)}
+      <div class="grp">Physical</div>
+      ${r("Speed", 58, 0)}${r("Strength", 80, 1)}${r("Agility", 62, 0)}${r("Stamina", 77, 1)}
+      <div class="grp">Mental</div>
+      ${r("Awareness", 68, 2)}${r("Composure", 72, 0)}${r("Discipline", 81, 0)}
+    </div>
+
+    <div class="col dev">
+      <div class="sect"><span class="label">Why he's improving</span></div>
+      <div class="drv"><span>Practice: OL focus, 6 h</span>${dots(3)}</div>
+      <div class="drv"><span>Snaps: 412 as the starter</span>${dots(2)}</div>
+      <div class="drv"><span>Coach Ray Tuttle, dev 78</span>${dots(2)}</div>
+      <div class="drv"><span>Age 20</span>${dots(1)}</div>
+      <div class="drv"><span>Film junkie: 4 film hours</span>${dots(1)}</div>
+      <div class="drv"><span>Wide zone wants Footwork 70</span>${dots(1, true)}</div>
+      <div class="caption" style="margin-top:4px"><b>+8 points a week.</b> <span class="stone">A rating ticks at 10.</span></div>
+      <div class="caption2 stone" style="margin-top:3px">Next: Pass pro 75 &middot; 7 of 10</div>
+      <div class="prog"><i style="width:70%"></i></div>
+      <div class="sect" style="margin-top:7px"><span class="label">Traits</span></div>
+      <div class="trait"><div class="caption semibold">Film junkie</div><div class="caption2 stone">Development: film hours count toward his growth</div></div>
+      <div class="trait" style="border-bottom:none"><div class="caption semibold">Steady</div><div class="caption2 stone">Penalties: half the pre-snap penalty rate</div></div>
+    </div>
+
+    <div class="col stat">
+      <div class="sect"><span class="label">Status</span></div>
+      <div class="kv"><div class="k">Profile</div>6'6", 309 lb &middot; Garland, TX</div>
+      <div class="kv"><div class="k">Eligibility &middot; redshirted 2024</div>2 seasons left after this one</div>
+      <div class="kv"><div class="k">This season</div>6 starts &middot; 412 snaps &middot; 1 sack</div>
+      <div class="kv" style="border-bottom:none"><div class="k">NIL &middot; retention: settled</div>$60,000 a year <span class="stone">&middot; market</span> <span class="fog">$95K&ndash;$130K</span></div>
+      <div class="panel ask">
+        <div style="display:flex;gap:6px;align-items:center"><i class="pennant"></i><span class="caption semibold">His family asks for $110,000</span></div>
+        <div class="caption2 stone" style="margin-top:2px">NIL pot left $180,000 &middot; due Week 8</div>
+        <div class="btns"><div class="btn btn-quiet">Pay $110K</div><div class="btn btn-quiet">Offer $85K</div><div class="btn btn-quiet">Not now</div></div>
+        <div class="caption2 stone" style="margin-top:3px">Not now: retention falls to <span class="loss">Uneasy</span></div>
+      </div>
+    </div>
+
+    <div class="foot"><div class="continue"><span class="k">Continue</span><span class="v">Squad: 2 flags</span></div></div>
+  </div>
+</div>`, { club: "marlow" });
+</script>
+</body></html>

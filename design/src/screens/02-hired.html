@@ -1,0 +1,55 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<link rel="stylesheet" href="../css/tokens.css">
+<script src="../js/common.js"></script>
+<style>
+  /* A moment: rare, full-bleed, in the club's colours. It still hosts a real decision. */
+  .stage { position: absolute; left: -59px; top: 0; bottom: -21px; width: 409px; padding-left: 59px; overflow: hidden;
+    background: radial-gradient(120% 90% at 30% 20%, var(--club) 0%, var(--club-deep) 75%); }
+  .stage::after { content: ""; position: absolute; right: 0; top: 0; bottom: 0; width: 6px; background: var(--stripe-v); }
+  .rafters { display: flex; gap: 10px; padding-left: 14px; }
+  .rafters .rod { position: absolute; left: 59px; right: 20px; top: 0; height: 2px; background: rgba(0,0,0,.35); }
+  .who { position: absolute; left: 73px; right: 24px; top: 88px; }
+  .panel2 { position: absolute; left: 364px; right: 0; top: 0; bottom: 0; padding: 12px 0 0 6px; }
+  .opt { position: relative; padding: 6px 9px 7px; border-radius: var(--r-control); box-shadow: inset 0 0 0 1px var(--line-strong); margin-bottom: 7px; }
+  .opt.sel { box-shadow: inset 0 0 0 1.5px var(--flag); background: rgba(244,197,66,0.06); }
+  .opt .q { font-size: var(--fs-subhead); line-height: 19px; font-weight: 600; }
+  .opt .e { font-size: var(--fs-caption); line-height: 15px; color: var(--stone); }
+  .opt .e b { color: var(--gain); font-weight: 600; }
+</style></head>
+<body><div id="root"></div>
+<script>
+const c = CLUBS.marlow;
+document.getElementById("root").innerHTML = device(`
+<div class="safe">
+  <div class="stage">
+    <div class="rod" style="position:absolute;left:59px;right:20px;top:0;height:2px;background:rgba(0,0,0,.35)"></div>
+    <div class="rafters">
+      ${banner("marlow", ["TRI-RIVER", "CHAMPIONS", "1987"])}
+      ${banner("marlow", ["TRI-RIVER", "CHAMPIONS", "1998"])}
+      ${banner("marlow", ["PRAIRIE", "BOWL", "2009"])}
+      ${banner("marlow", ["", "", "?"], 58, 70, true)}
+    </div>
+    <div class="who">
+      <div style="display:flex;align-items:center;gap:12px">${helmet("marlow", 96)}
+        <div>${wordmark("marlow", 22, c.plateText)}
+          <div style="font-family:Display;font-weight:700;font-size:16px;letter-spacing:.16em;color:${c.plateText};margin-top:4px">LANTERNS</div></div></div>
+      <div style="margin-top:12px;color:${c.plateText};font-size:var(--fs-subhead);line-height:20px">Introducing <b>Jordan Hale</b>, the 24th head coach in program history.</div>
+      <div style="margin-top:4px;color:${c.plateText};opacity:.85;font-size:var(--fs-caption);line-height:16px">Lantern Hill Field &middot; Marlow, Oklahoma &middot; since 1909</div>
+    </div>
+  </div>
+
+  <div class="panel2">
+    <div style="display:flex;align-items:center;gap:8px"><i class="pennant"></i><span class="label chalk">Your first words</span></div>
+    <div class="caption stone" style="margin:3px 0 6px">The press conference. Each answer wins over one group and gives it a promise to hold you to.</div>
+    <div class="caption" style="margin-bottom:9px"><span class="semibold">AD Vance:</span> <span class="stone">"Tell them what we are going to be."</span></div>
+    <div class="opt"><div class="q">"We win now."</div><div class="e"><b>Boosters +5.</b> They will hold you to a winning season.</div></div>
+    <div class="opt sel"><div class="q">"We build it from Oklahoma."</div><div class="e"><b>Fans +5.</b> They will hold you to 8 in-state signees in your first class.</div></div>
+    <div class="opt"><div class="q">"Every job is open."</div><div class="e"><b>Locker room +5.</b> They will hold you to starting the best player at every spot.</div></div>
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-top:2px">
+      <span class="caption stone">Measured against: <span class="flag-c semibold">6th</span> in the Tri-River</span>
+      <div class="continue"><span class="k">Say it</span><span class="v">Then: Week 1</span></div></div>
+  </div>
+</div>`, { club: "marlow" });
+</script>
+</body></html>
