@@ -17,7 +17,7 @@ function fieldSVG(o) {
     s += `<rect x="${X(ez)}" y="0" width="${X(10)}" height="${H}" fill="${home.primary}" opacity="0.92"/>`;
     const cx = ez + 5, cy = 80 / 3;
     s += `<text x="${X(cx)}" y="${Y(cy)}" transform="rotate(${ez === 0 ? -90 : 90} ${X(cx)} ${Y(cy)})" text-anchor="middle" dominant-baseline="central"
-      font-family="Display" font-weight="700" font-size="${(4.2 * sx).toFixed(1)}" letter-spacing="${(0.6 * sx).toFixed(1)}" fill="${home.secondary}" opacity="0.45">${home.nick.toUpperCase()}</text>`;
+      font-family="${FACES[home.face]}" font-weight="900" font-size="${(4.4 * sx).toFixed(1)}" letter-spacing="${(0.5 * sx).toFixed(1)}" fill="${home.secondary}" opacity="0.62">${home.nick.toUpperCase()}</text>`;
   }
   // Yard lines
   for (let yd = 10; yd <= 110; yd += 5) {
@@ -36,6 +36,14 @@ function fieldSVG(o) {
     s += `<text x="${X(yd)}" y="${Y(44.5)}" text-anchor="middle" font-family="Display" font-weight="600" font-size="${(2.6 * sx).toFixed(1)}" fill="#EEF1EA" opacity="0.38">${n}</text>`;
     s += `<text x="${X(yd)}" y="${Y(8.8)}" text-anchor="middle" transform="rotate(180 ${X(yd)} ${Y(8.8)})" font-family="Display" font-weight="600" font-size="${(2.6 * sx).toFixed(1)}" fill="#EEF1EA" opacity="0.38">${n}</text>`;
   }
+  // Midfield: the home club's mark, painted
+  const mr = 5.2 * sy;
+  s += `<circle cx="${X(60)}" cy="${Y(80 / 3)}" r="${mr.toFixed(1)}" fill="${home.primary}" opacity="0.78" stroke="${home.secondary}" stroke-width="1" />`;
+  s += `<text x="${X(60)}" y="${(+Y(80 / 3) + mr * 0.42).toFixed(1)}" text-anchor="middle" font-family="${FACES[home.face]}" font-weight="900" font-size="${(mr * 1.25).toFixed(1)}" fill="${home.secondary}" opacity="0.9">${home.letter}</text>`;
+  // Sideline paint in the home colour
+  s += `<rect x="0" y="0" width="${W}" height="2.5" fill="${home.primary}"/><rect x="0" y="${H - 2.5}" width="${W}" height="2.5" fill="${home.primary}"/>`;
+  // Floodlights: the field is lit from above; the corners fall off
+  s += `<defs><radialGradient id="lights" cx="50%" cy="45%" r="75%"><stop offset="0.55" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity="0.38"/></radialGradient></defs><rect width="${W}" height="${H}" fill="url(#lights)"/>`;
   // Line of scrimmage and the line to gain
   if (o.los != null) s += `<line x1="${X(o.los)}" y1="0" x2="${X(o.los)}" y2="${H}" stroke="rgba(238,241,234,0.9)" stroke-width="1.3"/>`;
   if (o.fd != null) s += `<line x1="${X(o.fd)}" y1="0" x2="${X(o.fd)}" y2="${H}" stroke="#F4C542" stroke-width="2"/>`;

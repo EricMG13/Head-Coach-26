@@ -150,7 +150,7 @@ body {
 .btn-sm { min-height: 36px; font-size: var(--fs-footnote); padding: 0 var(--s3); }
 .continue { display: flex; flex-direction: column; align-items: flex-start; justify-content: center; min-height: 44px; padding: 3px 14px 4px; border-radius: var(--r-control); background: var(--flag); color: var(--ink); }
 .continue .k { font-family: "Display"; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; font-size: 15px; line-height: 17px; }
-.continue .v { font-size: var(--fs-caption); line-height: var(--lh-caption); font-weight: 500; }
+.continue .v { font-size: var(--fs-caption); line-height: var(--lh-caption); font-weight: 500; white-space: nowrap; }
 
 /* ---------- Segmented control ---------- */
 .seg { display: inline-flex; background: var(--ground); border-radius: var(--r-control); box-shadow: inset 0 0 0 1px var(--line); padding: 2px; }
@@ -176,21 +176,22 @@ body {
 .chip-flag { background: var(--flag); color: var(--ink); }
 
 /* ---------- Rail: the coach's sideline. Club stripe, monogram, six places. ---------- */
-.rail { position: absolute; left: 0; top: 0; bottom: 0; width: 60px; display: flex; flex-direction: column; align-items: center; padding-top: 8px; border-right: 1px solid var(--line); }
-.rail .stripe { position: absolute; left: 0; top: 0; bottom: 0; width: 3px; }
-.rail .mono { width: 34px; height: 38px; margin-bottom: 6px; }
+.rail { position: absolute; left: -59px; top: 0; bottom: -21px; width: 119px; padding-left: 59px; display: flex; flex-direction: column; align-items: center; padding-top: 14px; background: var(--club-deep, var(--surface)); }
+.rail::after { content: ""; position: absolute; right: 0; top: 0; bottom: 0; width: 4px; background: var(--stripe-v, var(--line)); }
+.rail .mono { width: 44px; height: 36px; margin-bottom: 4px; }
 .rail .item { position: relative; width: 60px; height: 50px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; color: var(--stone); }
 .rail .item svg { width: 22px; height: 22px; stroke: currentColor; fill: none; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
 .rail .item span { font-family: "Display"; font-weight: 600; font-size: 12px; line-height: 12px; letter-spacing: 0.06em; text-transform: uppercase; }
 .rail .item.on { color: var(--chalk); }
-.rail .item.on::before { content: ""; position: absolute; left: 6px; top: 13px; width: 3px; height: 24px; border-radius: 2px; background: var(--chalk); }
+.rail .item.on::before { content: ""; position: absolute; left: 4px; top: 13px; width: 3px; height: 24px; border-radius: 2px; background: var(--club-ink, var(--chalk)); }
 .rail .item .pennant { position: absolute; right: 9px; top: 6px; }
 
 /* Content area to the right of the rail */
 .content { position: absolute; left: 60px; right: 0; top: 0; bottom: 0; }
 
 /* Screen header */
-.hdr { display: flex; align-items: flex-end; justify-content: space-between; padding: 8px 0 7px 14px; border-bottom: 1px solid var(--line); }
+.hdr { position: relative; display: flex; align-items: flex-end; justify-content: space-between; padding: 8px 0 7px 14px; background: linear-gradient(90deg, var(--club-deep, var(--surface)) 0%, var(--ground) 62%); margin-right: -59px; padding-right: 59px; }
+.hdr::after { content: ""; position: absolute; left: 0; right: 0; bottom: -4px; height: 4px; background: var(--stripe, var(--line)); }
 .hdr .ttl { font-family: "Display"; font-weight: 700; font-size: 24px; line-height: 24px; letter-spacing: 0.03em; text-transform: uppercase; }
 .hdr .ctx { font-size: var(--fs-footnote); line-height: var(--lh-footnote); color: var(--stone); }
 
@@ -204,3 +205,9 @@ tr.sel td:first-child { box-shadow: inset 2px 0 0 var(--chalk); }
 
 /* Club monogram shield */
 .shield { display: block; }
+
+/* ---------- Identity layer: wordmark faces (SIL Open Font License, bundled in the app) ---------- */
+@font-face { font-family: "Varsity"; font-weight: 400; src: url("../node_modules/@fontsource/graduate/files/graduate-latin-400-normal.woff2") format("woff2"); }
+@font-face { font-family: "Slab"; font-weight: 400; src: url("../node_modules/@fontsource/alfa-slab-one/files/alfa-slab-one-latin-400-normal.woff2") format("woff2"); }
+@font-face { font-family: "Block"; font-weight: 800; src: url("../node_modules/@fontsource/big-shoulders-display/files/big-shoulders-display-latin-800-normal.woff2") format("woff2"); }
+@font-face { font-family: "Block"; font-weight: 900; src: url("../node_modules/@fontsource/big-shoulders-display/files/big-shoulders-display-latin-900-normal.woff2") format("woff2"); }
